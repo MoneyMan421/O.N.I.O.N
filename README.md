@@ -83,61 +83,99 @@ O.N.I.O.N enforces Microsoft's Responsible AI principles at every layer:
 
 ---
 
-## 🧭 Safety-First Approach
+## 🧭 Safety Guidelines (Child-First)
 
-### Default Safety Posture
-- **Default Deny:** Unknown or uncertain inputs → deny or require approval
-- **Human Oversight:** High-risk actions always require explicit approval
-- **Explainability:** Every decision includes reason codes in both technical and user-friendly language
+O.N.I.O.N is designed to protect children by default:
+
+### Safety Defaults
+- **Default Deny:** Unknown/uncertain → deny or require approval
+- **Human Oversight:** High-risk actions require parent approval
+- **Explainability:** Every decision must be explainable in child + parent language
 
 ### Child Protection Built-In
 O.N.I.O.N is designed with children's safety as a first-class requirement:
 - Age-appropriate content filtering
 - Parent approval required for sensitive actions
 - Transparent explanations suitable for children and parents
-- No autonomous execution of high-risk actions
+
+### Prohibited System Behaviors
+- No autonomous execution of high-risk actions without policy + approval
+- No unsafe content decisions without reason codes
+- No unlogged decisions
 
 ---
 
 ## 📋 Verification Checklist
 
-Every change must pass verification at ALL layers:
+Every change must pass verification at ALL layers (not just CI):
 
 ### ✅ Source & Repository (L1)
 - [ ] PR required for `main` branch
 - [ ] Required status checks enabled
+- [ ] Signed commits (optional but recommended)
 - [ ] Secrets scanning + push protection enabled
 - [ ] Dependabot alerts enabled
 - [ ] Code scanning enabled
 
+GitHub recommends enabling secret scanning, Dependabot, push protection, and code scanning as core repo security features. [1](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories) [4](https://github.blog/changelog/2024-04-02-code-security-configurations-let-organizations-easily-roll-out-github-security-products-at-scale/)
+
 ### ✅ Build (L2)
-- [ ] Reproducible builds (same input → same artifact)
+- [ ] Builds are reproducible (same input → same artifact)
 - [ ] Container images tagged by commit SHA
 - [ ] Artifact integrity checks recorded
 
 ### ✅ Test (L3)
 - [ ] Unit + integration tests pass
 - [ ] Lint/format checks pass
-- [ ] Security tests (SAST/SCA) run in CI
+- [ ] Security tests (SAST/SCA) run in CI (where configured)
 
-### ✅ Policy (L4)
-- [ ] PDP returns structured decisions (allow/deny, reason codes, obligations)
-- [ ] Default deny for missing/unsafe inputs
-- [ ] Policy version tracked
+### ✅ Policy & Decision (L4 - PDP)
+- [ ] Default deny when inputs are missing/unsafe
+- [ ] PDP always returns structured decision:
+  - decision (allow/deny)
+  - reason codes
+  - obligations (e.g., require approval)
+  - policy version
 
 ### ✅ Deployment (L6)
 - [ ] Deploy only from trusted branches/tags
 - [ ] Environment protection rules for production
-- [ ] Least privilege deployment identities
+- [ ] Least privilege deployment identity
 
 ### ✅ Runtime (L7)
-- [ ] Health checks configured
-- [ ] Runtime policy enforcement active
+- [ ] Health checks required
+- [ ] Runtime policy enforcement (PEP)
 - [ ] Alerts configured for anomalies
 
-### ✅ Audit (L8)
-- [ ] Every decision logged with correlation ID
+### ✅ Audit & Monitoring (L8-L9)
+- [ ] Every decision is logged with correlation ID
 - [ ] Logs include policy version + reason codes
+- [ ] Monitoring verifies behavior over time
+
+**Why:** CI/CD pipelines are high-value targets and require dedicated security controls across the pipeline, not only at runtime. [5](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
+
+---
+
+## 🔐 Security + Compliance (Practical)
+
+O.N.I.O.N is built to be audit-ready and defensible.
+
+### Security Controls
+- Least privilege tokens / identities
+- Secrets never stored in code
+- Dependency risk management (Dependabot)
+- Code scanning and secret scanning
+
+(These are recommended GitHub repository hardening practices.) [1](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories) [6](https://www.softwaretestinghelp.com/github-advanced-security/)
+
+### Responsible AI Controls (Required)
+- Fairness checks where applicable
+- Reliability and safety testing + monitoring
+- Privacy and security by design
+- Transparency via explanations and disclosures
+- Human accountability + oversight
+
+(Responsible AI principles listed in Microsoft guidance.) [2](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2) [3](https://azure.github.io/Security-and-Responsible-AI-Guide/chapters/chapter_01_understanding_security_and_responsible_ai)
 
 ---
 
@@ -155,6 +193,38 @@ The `/docs` folder follows a compliance-ready structure mapped to the 9-layer ar
 - [`docs/07-verification/`](docs/07-verification/) — Test strategy, runtime checks
 - [`docs/08-audit/`](docs/08-audit/) — Audit schema, evidence collection
 - [`docs/09-agents/`](docs/09-agents/) — Agent contracts: "Agents propose, PDP decides"
+
+---
+
+## ✅ "Everything GitHub Needs" Checklist (Repo Completeness)
+
+GitHub recommends that a repo includes a README, license, contribution guidelines, code of conduct, and security documentation. [1](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories)
+
+### Required Files
+- [x] `README.md`
+- [x] `LICENSE`
+- [x] `CODE_OF_CONDUCT.md`
+- [x] `CONTRIBUTING.md`
+- [x] `SECURITY.md`
+- [x] `CHANGELOG.md`
+
+### GitHub Templates
+- [x] `.github/PULL_REQUEST_TEMPLATE.md`
+- [x] `.github/ISSUE_TEMPLATE/bug_report.md`
+- [x] `.github/ISSUE_TEMPLATE/feature_request.md`
+
+### Automation
+- [ ] `.github/workflows/ci.yml`
+- [ ] `.github/workflows/deploy.yml`
+
+### Repo Settings (Recommended)
+- [ ] Branch protection for `main`
+- [ ] Required reviews + required status checks
+- [ ] Dependabot alerts
+- [ ] Secret scanning + push protection
+- [ ] Code scanning
+
+(GitHub lists these as baseline security features.) [1](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories) [4](https://github.blog/changelog/2024-04-02-code-security-configurations-let-organizations-easily-roll-out-github-security-products-at-scale/)
 
 ---
 

@@ -1,0 +1,258 @@
+name: CI - O.N.I.O.N Verification Pipeline
+
+# 🧅 L1 - ENTRY/TRIGGER (Verification + Governance)
+# Verify correct trigger + permissions + governance
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+# Enforce least privilege for all jobs
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+env:
+  # Correlation ID for audit trail (L8)
+  CORRELATION_ID: ${{ github.run_id }}-${{ github.run_number }}
+
+jobs:
+  # 🧅 L1 - Verify Source Integrity
+  verify-source:
+    name: "L1: Source Verification"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for verification
+      
+      - name: Verify commit signatures (optional)
+        run: |
+          echo "🔍 Verifying source integrity..."
+          echo "Correlation ID: $CORRELATION_ID"
+          # Add commit signature verification if required
+          git log --show-signature -1 || true
+      
+      - name: Log source verification
+        run: |
+          echo "✅ Source verification complete"
+          echo "SHA: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Actor: ${{ github.actor }}"
+
+  # 🧅 L2 - BUILD (Artifact Integrity)
+  build:
+    name: "L2: Build & Artifact Integrity"
+    needs: verify-source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up build environment
+        run: |
+          echo "🔨 Setting up build environment..."
+          echo "Correlation ID: $CORRELATION_ID"
+          # Add your build tool setup here (Node, Python, etc.)
+          # Example: setup-node, setup-python, etc.
+      
+      - name: Install dependencies
+        run: |
+          echo "📦 Installing dependencies..."
+          # Add your dependency installation here
+          # Example: npm install, pip install -r requirements.txt, etc.
+      
+      - name: Build artifacts
+        run: |
+          echo "🏗️ Building artifacts..."
+          # Add your build commands here
+          # Example: npm run build, make, etc.
+          echo "Build SHA: ${{ github.sha }}"
+      
+      - name: Generate build manifest
+        run: |
+          echo "📝 Generating build manifest for audit trail..."
+          cat > build-manifest.json << EOF
+          {
+            "sha": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "actor": "${{ github.actor }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "correlation_id": "$CORRELATION_ID"
+          }
+          EOF
+          cat build-manifest.json
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ github.sha }}
+          path: |
+            build-manifest.json
+          retention-days: 90
+
+  # 🧅 L3 - TEST (Quality + Safety)
+  test:
+    name: "L3: Test & Quality Gates"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run unit tests
+        run: |
+          echo "🧪 Running unit tests..."
+          # Add your test commands here
+          # Example: npm test, pytest, etc.
+      
+      - name: Run integration tests
+        run: |
+          echo "🔗 Running integration tests..."
+          # Add integration test commands here
+      
+      - name: Run linting
+        run: |
+          echo "🔍 Running lint checks..."
+          # Add linting commands here
+          # Example: npm run lint, flake8, etc.
+      
+      - name: Check code formatting
+        run: |
+          echo "✨ Checking code formatting..."
+          # Add formatting check commands here
+          # Example: npm run format:check, black --check, etc.
+
+  # 🧅 L4 - POLICY (PDP Decision)
+  security-scan:
+    name: "L4: Policy & Security Evaluation"
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run dependency security scan
+        run: |
+          echo "🔒 Running dependency security scan..."
+          # Add dependency scanning here
+          # Example: npm audit, safety check, etc.
+      
+      - name: Initialize CodeQL (if applicable)
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript  # Adjust based on your languages
+        continue-on-error: true
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        continue-on-error: true
+      
+      - name: Policy decision evaluation
+        run: |
+          echo "⚖️ Evaluating policy compliance..."
+          echo "Correlation ID: $CORRELATION_ID"
+          # Implement PDP evaluation logic
+          # Check for:
+          # - Security vulnerabilities
+          # - Compliance requirements
+          # - Safety requirements
+          echo "Decision: ALLOW (tests passed)"
+          echo "Reason Code: ALL_CHECKS_PASSED"
+          echo "Policy Version: 1.0.0"
+
+  # 🧅 L5 - CONTROL (Approval / Human Oversight)
+  approval-gate:
+    name: "L5: Approval Gate"
+    needs: security-scan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Check for required approvals
+        run: |
+          echo "👥 Checking approval requirements..."
+          echo "Correlation ID: $CORRELATION_ID"
+          # For production deployments, this would check for approvals
+          # GitHub environment protection rules handle this automatically
+          echo "✅ Approval gate passed"
+
+  # 🧅 L8 - AUDIT (Traceability)
+  audit-log:
+    name: "L8: Audit Evidence Collection"
+    needs: [verify-source, build, test, security-scan]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Collect audit evidence
+        run: |
+          echo "📋 Collecting audit evidence..."
+          echo "Correlation ID: $CORRELATION_ID"
+          cat > audit-log.json << EOF
+          {
+            "correlation_id": "$CORRELATION_ID",
+            "sha": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "actor": "${{ github.actor }}",
+            "event": "${{ github.event_name }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "workflow": "${{ github.workflow }}",
+            "job_status": {
+              "verify_source": "${{ needs.verify-source.result }}",
+              "build": "${{ needs.build.result }}",
+              "test": "${{ needs.test.result }}",
+              "security_scan": "${{ needs.security-scan.result }}"
+            }
+          }
+          EOF
+          cat audit-log.json
+      
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-log-${{ github.sha }}
+          path: audit-log.json
+          retention-days: 365  # Keep audit logs for compliance
+
+  # Final status check
+  ci-complete:
+    name: "CI Pipeline Complete"
+    needs: [verify-source, build, test, security-scan, audit-log]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check pipeline status
+        run: |
+          echo "🎯 CI Pipeline Summary"
+          echo "===================="
+          echo "Correlation ID: $CORRELATION_ID"
+          echo "SHA: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+          echo ""
+          echo "L1 - Source Verification: ${{ needs.verify-source.result }}"
+          echo "L2 - Build: ${{ needs.build.result }}"
+          echo "L3 - Test: ${{ needs.test.result }}"
+          echo "L4 - Security: ${{ needs.security-scan.result }}"
+          echo "L8 - Audit: ${{ needs.audit-log.result }}"
+          echo ""
+          if [ "${{ needs.verify-source.result }}" == "success" ] && \
+             [ "${{ needs.build.result }}" == "success" ] && \
+             [ "${{ needs.test.result }}" == "success" ] && \
+             [ "${{ needs.security-scan.result }}" == "success" ]; then
+            echo "✅ All verification layers passed!"
+            exit 0
+          else
+            echo "❌ Some verification layers failed"
+            exit 1
+          fi

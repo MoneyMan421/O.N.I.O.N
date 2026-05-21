@@ -33,7 +33,7 @@ Our mission and our Responsible AI commitment are one framework. We do not separ
 |---|---|
 | ⚖️ **Fairness** | Decisions are policy-driven, reviewable, and designed to reduce arbitrary or biased outcomes |
 | 🛡️ **Reliability & Safety** | Systems are tested, monitored, and denied by default when uncertainty creates risk |
-| 🔒 **Privacy & Security** | Child data is minimized, protected, encrypted, and governed carefully |
+| 🔒 **Privacy & Security** | Child data must be minimized, protected, encrypted, and governed carefully |
 | 🌍 **Inclusiveness** | Safeguards and explanations are designed for real families, guardians, and oversight roles |
 | 🔍 **Transparency** | Decisions require reason codes, traceability, and understandable explanations |
 | ✅ **Accountability** | Human responsibility remains attached to high-impact actions and outcomes |
@@ -254,7 +254,7 @@ flowchart TD
 | Layer | What Is Verified | How |
 |---|---|---|
 | **Source Code** | No secrets committed | GitHub secret scanning, branch protection, and review controls |
-| **Dependencies** | No known CVEs | Dependabot, dependency review, and package auditing |
+| **Dependencies** | No known CVEs | Dependabot, dependency review, and dependency vulnerability scanning tools (e.g., pip-audit, npm audit) |
 | **Build** | Code quality and security | Static analysis, linting, and test gates |
 | **Artifact** | Image integrity | Signed artifacts and provenance verification |
 | **Registry** | Image not tampered | Trusted registry controls and validation |
@@ -262,7 +262,7 @@ flowchart TD
 | **Runtime** | Requests are authorized | PEP → PDP policy enforcement |
 | **Data** | Inputs are safe | Input validation, schema checks, and minimization |
 | **Decisions** | Decisions are explainable | Reason codes, audit logs, and trace evidence |
-| **Alerts** | Guardians are notified | Notification rules and escalation paths |
+| Alerts | Guardians are notified | Notification rules and escalation paths |
 
 ---
 
@@ -286,13 +286,22 @@ flowchart TD
 - PEP must enforce policy results without bypass
 - Audit records must preserve decision evidence and traceability
 
+## 🛑 Safety Invariants (NON NEGOTIABLE)
+
+- No action without `PDP = ALLOW`
+- No autonomous high-risk decisions
+- Default = DENY when uncertain
+- Human approval required for sensitive actions
+- All decisions must include reason codes
+
 ---
 
 ## 🔒 Compliance, Safety & Security Guidelines
 
 ### Security Principles
 - **No long-lived credentials** — prefer OIDC and workload identity
-- **Least privilege** — each identity gets only required permissions
+- **Least privilege** — each identity must get only required permissions
+- **Workflow token scope** — GitHub Actions tokens must use minimal per-scope permissions (for example, `contents: read`)
 - **Immutable artifacts** — build once, sign once, deploy verified outputs
 - **Dependency discipline** — lock dependencies and monitor drift
 - **Audit everything** — record builds, releases, decisions, and runtime changes
@@ -300,12 +309,13 @@ flowchart TD
 ### Safety Rules
 - **No autonomous action without policy approval** — `policy-pdp` must return `ALLOW`
 - **No silent failures** — significant failures must surface to `notification-service`
-- **Guardian override always available** — `approval-service` enables human review
-- **Data minimization** — collect only necessary child data and retain it carefully
+- **Guardian override always available** — `approval-service` should enable human review
+- **Data minimization** — systems must collect only necessary child data and retain it carefully
 
 ### Privacy
-- Telemetry is minimized and protected before storage
-- Sensitive data is encrypted in transit and at rest
+- Data must be anonymized at ingestion
+- PII must be encrypted at rest
+- All sensitive data should be protected in transit and storage
 - Retention policies and access controls must be enforced
 
 ### Regulatory Alignment
@@ -316,13 +326,11 @@ flowchart TD
 
 ---
 
-## 📦 Recommended Repository Structure
+## 📦 Repository Structure (Production-Oriented Monorepo)
 
 ```text
 onion-guardian-agent/
 ├── README.md
-├── legacy-README.1.md
-├── legacy-README.2.md
 ├── LICENSE
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
@@ -331,13 +339,49 @@ onion-guardian-agent/
 ├── .gitignore
 ├── docker-compose.yml
 ├── .github/
+│   ├── workflows/
+│   ├── ISSUE_TEMPLATE/
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── services/
+│   ├── api-gateway/
+│   ├── policy-pdp/
+│   ├── approval-service/
+│   ├── telemetry-ingest/
+│   ├── notification-service/
+│   └── audit-service/
 ├── agents/
+│   ├── behavior-agent/
+│   ├── anomaly-agent/
+│   ├── context-agent/
+│   └── explanation-agent/
 ├── packages/
+│   ├── shared-types/
+│   ├── policy-sdk/
+│   ├── logging-lib/
+│   └── utils/
 ├── infrastructure/
+│   ├── terraform/
+│   ├── k8s/
+│   └── scripts/
 ├── ci-cd/
+│   ├── github-actions/
+│   └── pipelines.md
 ├── configs/
+│   ├── dev.env
+│   ├── staging.env
+│   ├── prod.env
+│   └── policy-config.yaml
 ├── docs/
+│   ├── 00-governance/
+│   ├── 01-risk/
+│   ├── 02-policy/
+│   ├── 03-architecture/
+│   ├── 04-security/
+│   ├── 05-safety/
+│   ├── 06-compliance/
+│   ├── 07-verification/
+│   ├── 08-audit/
+│   └── 09-agents/
 ├── scripts/
 ├── tests/
 └── resources/
@@ -384,7 +428,7 @@ All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## 📜 License
 
-See [LICENSE](LICENSE) for details.
+License terms are not finalized yet and must be added before public distribution.
 
 ---
 

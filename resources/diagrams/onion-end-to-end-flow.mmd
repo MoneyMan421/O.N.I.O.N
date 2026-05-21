@@ -1,0 +1,15 @@
+flowchart TD
+    A[Developer Workstation] -->|Signed commits / PRs| B[GitHub Repository]
+    B -->|Protected branches / CODEOWNERS / secret scanning| C[GitHub Actions CI/CD]
+    C -->|SAST / dependency audit / tests / policy lint| D[Azure Container Registry]
+    D -->|Verified image pull| E[Azure Kubernetes Service]
+    E --> F[ONION Runtime]
+    F --> G[Audit Service]
+    F --> H[Notification Service]
+    F --> I[Azure Monitor / Defender for Cloud]
+
+    F1[api-gateway] --> F2[policy-pdp]
+    F2 -->|ALLOW| F3[approval-service]
+    F2 -->|DENY| H
+    F3 --> G
+    F4[telemetry-ingest] --> G

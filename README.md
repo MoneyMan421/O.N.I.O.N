@@ -309,7 +309,7 @@ flowchart TD
 ### Safety Rules
 - **No autonomous action without policy approval** — `policy-pdp` must return `ALLOW`
 - **No silent failures** — significant failures must surface to `notification-service`
-- **Guardian override always available** — `approval-service` should enable human review
+- **Guardian override always available** — `approval-service` must enable human review
 - **Data minimization** — systems must collect only necessary child data and retain it carefully
 
 ### Privacy

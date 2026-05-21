@@ -332,7 +332,6 @@ Additional workflow hardening requirements:
 ### Privacy
 - Telemetry must be minimized and protected before storage
 - Sensitive data must be encrypted in transit and at rest
-- All sensitive data should be protected in transit and storage
 - Retention policies and access controls must be enforced
 
 ### Regulatory Alignment

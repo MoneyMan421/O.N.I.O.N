@@ -7,15 +7,36 @@
 
 ---
 
-## 🎯 Mission
+## 🎯 Mission Statement
 
 Build systems that **never operate without verification** and **never make decisions without responsibility**.
 
-O.N.I.O.N is a **zero-trust, policy-driven architecture** designed to protect children with:
-- ✅ Every action **validated** before execution
-- 📊 Every decision **explainable** and **traceable**
-- 👤 Every outcome **accountable** to a responsible owner
-- 🛡️ Every system **safe, secure, and compliant**
+O.N.I.O.N is a **zero-trust, policy-driven architecture** founded on nine core principles:
+
+### Core Principles
+
+| Principle | Our Commitment |
+|-----------|----------------|
+| 🎯 **Responsibility** | Every action has a clear owner; every decision has a responsible party |
+| ✅ **Accountability** | Never guess—always seek clarification when uncertain; all decisions are logged and traceable |
+| 💡 **Explainability** | Every action is explained with clear reasoning and logic; transparent to all stakeholders |
+| 🔧 **Natural Ability** | Use only tools that are natural fits for the task; no forced or inappropriate solutions |
+| 🛡️ **Integrity** | Maintain data accuracy, system consistency, and truthful operations at all times |
+| 👶 **Safety** | Child safety is paramount; default deny when uncertain; human oversight for high-risk actions |
+| 📋 **Compliance** | Adhere to all regulatory requirements, standards, and legal obligations |
+| 🔒 **Security** | Protect data, systems, and users through defense-in-depth and zero-trust architecture |
+| ⚖️ **Constraints** | Operate within defined boundaries, limits, and policy-enforced guardrails |
+
+### How We Deliver
+
+O.N.I.O.N implements these principles through:
+- ✅ **Validation First**: Every action is validated before execution
+- 📊 **Explainable Decisions**: Every decision is explainable and traceable with reason codes
+- 👤 **Clear Ownership**: Every outcome is accountable to a responsible owner
+- 🛡️ **Safety by Design**: Every system is safe, secure, and compliant by default
+- 🤔 **Uncertainty Management**: When unsure, always ask for more information rather than guessing
+- 🔧 **Appropriate Tools**: Use only tools with natural fit to the problem domain
+- 📝 **Reason & Logic**: All actions backed by clear reasoning and logical justification
 
 ### Responsible AI Commitment
 
@@ -30,7 +51,7 @@ O.N.I.O.N is built on the **six Responsible AI principles**:
 | 🔍 **Transparency** | Every decision has a reason code; explainable to children and parents |
 | ✅ **Accountability** | Clear ownership; immutable audit logs; traceable decisions |
 
-> **One-line principle:** Verified systems + Responsible AI at every layer = trustworthy execution.
+> **Core Philosophy:** Responsibility + Accountability + Explainability + Natural Ability + Integrity + Safety + Compliance + Security + Constraints = Trustworthy, Verified AI Systems
 
 ---
 

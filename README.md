@@ -321,6 +321,8 @@ flowchart TD
 ```text
 onion-guardian-agent/
 ├── README.md
+├── legacy-README.1.md
+├── legacy-README.2.md
 ├── LICENSE
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
@@ -343,6 +345,23 @@ onion-guardian-agent/
 
 ---
 
+## 📚 Documentation Structure Recommendation
+
+Use this simple repository documentation structure going forward:
+
+- `README.md` — primary public-facing overview
+- `legacy-README.1.md` — earlier refined README reference
+- `legacy-README.2.md` — formal architecture-oriented README reference
+- `docs/00-governance/` — mission, roles, and responsible AI governance
+- `docs/03-architecture/` — diagrams, layered model, and runtime design
+- `docs/05-safety/` — child-safety guardrails and approval flows
+- `docs/06-compliance/` — audit checklists, standards mapping, and evidence requirements
+- `resources/diagrams/` — Mermaid sources and visual assets
+
+This keeps the main README readable for visitors while preserving deeper reference material in stable supporting files.
+
+---
+
 ## 🚀 Getting Started
 
 ```bash
@@ -350,8 +369,8 @@ onion-guardian-agent/
 git clone https://github.com/Big-Orga/O.N.I.O.N.git
 cd O.N.I.O.N
 
-# Review the refined system overview
-cat README-.2
+# Review the main system overview
+cat README.md
 ```
 
 ---

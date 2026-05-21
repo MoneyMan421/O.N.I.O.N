@@ -93,7 +93,7 @@ jobs:
           cat build-manifest.json
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: build-artifacts-${{ github.sha }}
           path: |
@@ -219,7 +219,7 @@ jobs:
           cat audit-log.json
       
       - name: Upload audit evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: audit-log-${{ github.sha }}
           path: audit-log.json

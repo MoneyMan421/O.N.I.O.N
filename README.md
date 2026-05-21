@@ -1,25 +1,29 @@
-# 🧅 ONION Guardian Agent
-**Verified, Responsible, Safety‑First AI System (Child‑Centered)**
+# 🧅 O.N.I.O.N (Observe, Notice, Infer, Operate, Narrate)
+**Verified, Responsible, Safety-First AI System for Child Protection**
 
 [![GitHub Best Practices](https://img.shields.io/badge/GitHub-Best%20Practices-blue)](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories)
 [![Responsible AI](https://img.shields.io/badge/Responsible%20AI-6%20Principles-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
 [![OWASP CI/CD Security](https://img.shields.io/badge/OWASP-CI%2FCD%20Security-orange)](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
+> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed for child safety, explainability, accountability, and end-to-end verification.
+
 ---
 
-## 🎯 Mission (Merged with Responsible AI)
+## 🎯 Mission
 
 Build systems that **never operate without verification** and **never make decisions without responsibility**.
 
-ONION is a **zero‑trust, policy‑driven architecture** where:
+O.N.I.O.N is designed so that:
 - Every action is **validated** before execution
 - Every decision is **explainable** and **traceable**
 - Every outcome is **accountable** to a responsible owner
 - Every system is **safe, secure, and compliant**
 
-### Responsible AI Commitment
+---
 
-ONION is built and governed according to the **six Responsible AI principles**:
+## 🛡️ Responsible AI Commitment
+
+O.N.I.O.N aligns with the **six Responsible AI principles**:
 
 | Principle | Description |
 |---|---|
@@ -27,27 +31,25 @@ ONION is built and governed according to the **six Responsible AI principles**:
 | 🛡️ **Reliability & Safety** | AI systems perform reliably and safely under all conditions |
 | 🔒 **Privacy & Security** | AI systems respect privacy and maintain security |
 | 🌍 **Inclusiveness** | AI systems empower everyone and engage all people |
-| 🔍 **Transparency** | AI systems are understandable; humans understand what they do |
-| ✅ **Accountability** | People are accountable for AI systems and their outcomes |
+| 🔍 **Transparency** | AI systems are understandable and explainable |
+| ✅ **Accountability** | People remain accountable for AI systems and their outcomes |
 
-> These six principles are the foundation of Microsoft's Responsible AI Standard.
-
-**One-line principle:**
+**Core principle:**
 > Verified systems + Responsible AI at every layer = trustworthy execution.
 
 ---
 
-## 🧅 What "ONION" Means (Kid‑Friendly + AI‑Accurate Acronym)
+## 🧅 What O.N.I.O.N Means
 
-ONION describes how the system "thinks" — in simple words kids can understand, but still accurate for AI systems:
+The acronym describes how the system works in terms understandable to both technical teams and children:
 
 | Letter | AI Term | Kid Term | What It Does |
 |---|---|---|---|
 | **O** | Observe / Origin | 👀 Look | Collect safe inputs from the environment |
-| **N** | Notice / Navigate | 🔎 Notice | Detect patterns & risk signals |
+| **N** | Notice / Navigate | 🔎 Notice | Detect patterns and risk signals |
 | **I** | Infer / Imagine | 🤔 Think | Reason and choose safe options |
 | **O** | Operate / Organize | ✅ Do | Apply policy and enforce constraints |
-| **N** | Narrate / Notify | 📢 Tell | Explain decisions and alert parents/guardians |
+| **N** | Narrate / Notify | 📢 Tell | Explain decisions and alert guardians |
 
 **Kid version:** Look → Notice → Think → Do → Tell.
 
@@ -55,18 +57,16 @@ ONION describes how the system "thinks" — in simple words kids can understand,
 
 ## 🧠 Core Architecture
 
-ONION is built as **multi‑level + multi‑layer defense**, so **no single control is trusted**.
+O.N.I.O.N uses a layered defense-in-depth model so that no single control is trusted by itself.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────────┐
-│                           ONION Guardian Agent                                │
-├────────────────────────────────────────────────────────────────────────────────┤
-│ Layer 1 (Outermost): Input Validation & Origin Trust                          │
-│ Layer 2:             Threat Detection & Risk Scoring                          │
-│ Layer 3:             Inference Engine & Policy Evaluation                     │
-│ Layer 4:             Enforcement & Constraint Application                     │
-│ Layer 5 (Innermost): Audit, Narration & Guardian Notification                 │
-└────────────────────────────────────────────────────────────────────────────────┘
+### Layered Model
+
+```mermaid
+flowchart TD
+    L1[Layer 1: Input Validation & Origin Trust] --> L2[Layer 2: Threat Detection & Risk Scoring]
+    L2 --> L3[Layer 3: Inference Engine & Policy Evaluation]
+    L3 --> L4[Layer 4: Enforcement & Constraint Application]
+    L4 --> L5[Layer 5: Audit, Narration & Guardian Notification]
 ```
 
 ### Core Services
@@ -74,103 +74,89 @@ ONION is built as **multi‑level + multi‑layer defense**, so **no single cont
 | Service | Role | Description |
 |---|---|---|
 | `api-gateway` | Policy Enforcement Point (PEP) | Entry point; validates every request |
-| `policy-pdp` | Policy Decision Point (PDP) | Evaluates policy rules; approves/denies actions |
-| `approval-service` | Parent / Guardian Approvals | Handles overrides and parent consent flows |
-| `telemetry-ingest` | Device Telemetry Intake | Ingests wearable/device data streams |
-| `notification-service` | Alerts & Communications | Real-time alerts to guardians |
-| `audit-service` | Immutable Audit Trail | Stores tamper-proof evidence of every decision |
+| `policy-pdp` | Policy Decision Point (PDP) | Evaluates policy rules; approves or denies actions |
+| `approval-service` | Guardian Approvals | Handles overrides and parent consent flows |
+| `telemetry-ingest` | Device Telemetry Intake | Ingests wearable and device data streams |
+| `notification-service` | Alerts & Communications | Sends real-time alerts to guardians |
+| `audit-service` | Immutable Audit Trail | Stores tamper-resistant evidence of every decision |
 
 ---
 
-## 🔁 Full Flow Diagram (GitHub → CI/CD → Azure → Runtime → Audit)
+## 🔁 Full System Flow
 
-This is the full beginning-to-end system flow, with verification and Responsible AI embedded at every step.
+The flow below shows the end-to-end path from source control to production runtime and monitoring.
 
-```text
-Developer Workstation
-        │
-        │  git push (signed commits)
-        ▼
-┌───────────────────┐
-│   GitHub Repo     │  ← Branch protection, CODEOWNERS, secret scanning,
-│                   │    dependency review, Dependabot alerts
-└────────┬──────────┘
-         │  PR created → required reviewers + status checks
-         ▼
-┌───────────────────┐
-│  GitHub Actions   │  ← OIDC auth (no long-lived secrets)
-│  CI/CD Pipeline   │    • SAST (CodeQL)
-│                   │    • Dependency audit
-│                   │    • Container image scan
-│                   │    • Policy-as-code lint (OPA/Conftest)
-│                   │    • Unit + integration tests
-└────────┬──────────┘
-         │  Artifacts signed (cosign / SLSA provenance)
-         ▼
-┌───────────────────┐
-│  Azure Container  │  ← Image pulled only if signature verified
-│  Registry (ACR)   │    Quarantine policy for unscanned images
-└────────┬──────────┘
-         │
-         ▼
-┌───────────────────┐
-│  Azure Kubernetes │  ← Pod Security Standards (restricted)
-│  Service (AKS)    │    OPA Gatekeeper policies enforced
-│                   │    Workload Identity (no secret mounts)
-│                   │    Network policies (zero-trust east-west)
-└────────┬──────────┘
-         │
-         ▼
-┌───────────────────────────────────────────────────────┐
-│                   ONION Runtime                       │
-│                                                       │
-│  [api-gateway] ──► [policy-pdp] ──► [approval-svc]   │
-│       │                 │                             │
-│       │           Policy DENY?──► [notification-svc] │
-│       │                 │           (alert guardian)  │
-│       ▼                 ▼                             │
-│  [telemetry-ingest]  Policy ALLOW                     │
-│       │                 │                             │
-│       ▼                 ▼                             │
-│  [audit-service] ◄──────┘  (every decision logged)   │
-└────────┬──────────────────────────────────────────────┘
-         │
-         ▼
-┌───────────────────┐
-│  Azure Monitor /  │  ← Metrics, logs, distributed traces
-│  Defender for     │    Anomaly detection alerts
-│  Cloud            │    Compliance posture dashboard
-└───────────────────┘
+```mermaid
+flowchart TD
+    A[Developer Workstation] -->|Signed commits / PRs| B[GitHub Repository]
+    B -->|Protected branches / CODEOWNERS / secret scanning| C[GitHub Actions CI/CD]
+    C -->|SAST / dependency audit / tests / policy lint| D[Azure Container Registry]
+    D -->|Verified image pull| E[Azure Kubernetes Service]
+    E --> F[ONION Runtime]
+    F --> G[Audit Service]
+    F --> H[Notification Service]
+    F --> I[Azure Monitor / Defender for Cloud]
+
+    F1[api-gateway] --> F2[policy-pdp]
+    F2 -->|ALLOW| F3[approval-service]
+    F2 -->|DENY| H
+    F3 --> G
+    F4[telemetry-ingest] --> G
+```
+
+### Blueprint Overview
+
+```mermaid
+flowchart LR
+    U[Users / Devices\nChildren / Guardians / Admins / Wearables] --> IV[Input Validation]
+    IV --> TD[Threat Detection]
+    TD --> PI[Policy / Inference]
+    PI --> ENF[Enforcement]
+    ENF --> AUD[Audit / Logging]
+    AUD --> NTFY[Notify / Explain / Alert]
+
+    GOV[Governance] --- PI
+    COMP[Compliance] --- PI
+    SEC[Security] --- ENF
+    SAFE[Safety] --- TD
+    MON[Monitoring] --- AUD
+
+    GH[GitHub] --- IV
+    GHA[GitHub Actions] --- PI
+    AZ[Azure / AKS / ACR] --- ENF
 ```
 
 ---
 
-## 🧭 System Blueprint
+## 📐 ASCII Blueprints
+
+### Runtime Blueprint
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    SYSTEM BLUEPRINT                                     │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│ Users / Devices                                                                          │
-│  • Children • Guardians • Admins • Wearables / Apps                                     │
-│          │                                                                               │
-│          ▼                                                                               │
-│  [ Input Validation ] -> [ Threat Detection ] -> [ Policy / Inference ] -> [ Enforcement ]
-│          │                         │                        │                    │        │
-│          └─────────────────────────┴────────────────────────┴────────────────────┘        │
-│                                            │                                              │
-│                                            ▼                                              │
-│                                   [ Audit / Logging ]                                    │
-│                                            │                                              │
-│                                            ▼                                              │
-│                                  [ Notify / Explain / Alert ]                            │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│ Control Planes                                                                           │
-│  • Governance • Compliance • Security • Safety • Monitoring                              │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│ Platform Foundations                                                                      │
-│  • GitHub • GitHub Actions • Azure • AKS • ACR • OPA • Monitoring                        │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────┐
+│                         ONION Runtime                        │
+├───────────────────────────────────────────────────────────────┤
+│  [api-gateway] ──► [policy-pdp] ──► [approval-service]      │
+│       │                 │                                    │
+│       │                 ├── DENY ──► [notification-service] │
+│       │                 └── ALLOW ─► [audit-service]        │
+│       ▼                                                      │
+│  [telemetry-ingest] ───────────────────► [audit-service]    │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### Platform Blueprint
+
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                              Platform Blueprint                         │
+├──────────────────────────────────────────────────────────────────────────┤
+│ GitHub Repo -> GitHub Actions -> Azure Container Registry -> AKS        │
+│      │                │                         │                 │       │
+│      │                │                         │                 └─► Monitor
+│      │                │                         └─► Signed Artifacts      │
+│      └─► Reviews / Branch Protection / Security Scans                    │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -181,7 +167,7 @@ Developer Workstation
 |---|---|---|
 | **Source Code** | No secrets committed | GitHub secret scanning + pre-commit hooks |
 | **Dependencies** | No known CVEs | Dependabot + `npm audit` / `pip audit` |
-| **Build** | Code quality & security | CodeQL SAST, lint, unit tests |
+| **Build** | Code quality and security | CodeQL SAST, lint, unit tests |
 | **Artifact** | Image integrity | cosign signature + SLSA provenance attestation |
 | **Registry** | Image not tampered | ACR content trust + quarantine policy |
 | **Deployment** | Config matches policy | OPA Gatekeeper + Conftest |
@@ -194,70 +180,29 @@ Developer Workstation
 
 ## 🔒 Compliance, Safety & Security Guidelines
 
-### Security Principles (OWASP CI/CD Top 10 Mitigations)
-- **No long-lived credentials** — use OIDC/workload identity everywhere
-- **Least-privilege** — every service account has minimum required permissions
-- **Immutable artifacts** — built once, signed, deployed; never rebuilt in prod
-- **Dependency pinning** — lock file committed; Dependabot monitors drift
-- **Audit everything** — every pipeline run, deployment, and runtime decision is logged
+### Security Principles
+- **No long-lived credentials** — use OIDC and workload identity wherever possible
+- **Least privilege** — every service account gets only required permissions
+- **Immutable artifacts** — build once, sign once, deploy verified artifacts
+- **Dependency pinning** — lock dependencies and monitor drift
+- **Audit everything** — log every pipeline run, deployment, and runtime decision
 
 ### Safety Rules
 - **No autonomous action without policy approval** — `policy-pdp` must return `ALLOW`
 - **No silent failures** — all errors surface to `notification-service`
-- **Guardian override always available** — `approval-service` enables human-in-the-loop
-- **Data minimization** — collect only what is needed; purge on schedule
+- **Guardian override always available** — `approval-service` enables human review
+- **Data minimization** — collect only what is necessary and purge on schedule
 
 ### Privacy
-- All telemetry is anonymized at ingestion before storage
-- PII is encrypted at rest (AES-256) and in transit (TLS 1.3+)
-- Data retention policies enforced automatically
+- Telemetry is anonymized at ingestion before storage
+- PII is encrypted at rest and in transit
+- Data retention policies are enforced automatically
 
 ### Regulatory Alignment
 - GDPR / COPPA — child data protection by design
 - ISO 27001 — information security controls
-- NIST AI RMF — AI risk management framework alignment
+- NIST AI RMF — AI risk management alignment
 - OWASP ASVS Level 2 — application security verification
-
----
-
-## 📋 GitHub "Everything You Need" Checklist
-
-### Repository Files
-- [ ] `README.md` — this file; purpose, architecture, usage
-- [ ] `SECURITY.md` — vulnerability reporting policy
-- [ ] `CONTRIBUTING.md` — how to contribute; code of conduct reference
-- [ ] `CODE_OF_CONDUCT.md` — community standards
-- [ ] `CODEOWNERS` — mandatory reviewers per path
-- [ ] `LICENSE` — open-source license declaration
-- [ ] `.gitignore` — exclude build artifacts, secrets, temp files
-- [ ] `.github/PULL_REQUEST_TEMPLATE.md` — PR checklist
-- [ ] `.github/ISSUE_TEMPLATE/` — bug report & feature request templates
-- [ ] `.github/workflows/ci.yml` — CI pipeline (lint, test, scan)
-- [ ] `.github/workflows/cd.yml` — CD pipeline (build, sign, deploy)
-- [ ] `.github/dependabot.yml` — automated dependency updates
-
-### Repository Settings
-- [ ] **Branch protection on `main`** — require PR, require status checks, no force push
-- [ ] **Required status checks** — CI must pass before merge
-- [ ] **Required reviewers** — minimum 1 (CODEOWNERS enforced)
-- [ ] **Signed commits** — required on protected branches
-- [ ] **Auto-delete head branches** — keep repo clean after merge
-- [ ] **Discussions** — enabled for community Q&A
-
-### Security Features (GitHub Advanced Security)
-- [ ] **Secret scanning** — enabled; push protection on
-- [ ] **Dependabot alerts** — enabled
-- [ ] **Dependabot security updates** — auto PRs for vulnerable deps
-- [ ] **Dependency review** — block PRs that introduce vulnerable packages
-- [ ] **Code scanning (CodeQL)** — enabled on push + PR
-- [ ] **Private vulnerability reporting** — enabled
-
-### CI/CD Security (GitHub Actions)
-- [ ] **OIDC** — use `permissions: id-token: write` instead of stored secrets
-- [ ] **Pin third-party actions to SHA** — use `@<sha>` for unverified/third-party actions; semantic versions (e.g. `@v4`) are acceptable for GitHub's own verified actions
-- [ ] **Minimal permissions** — `permissions:` block on every workflow
-- [ ] **No `pull_request_target`** — unless strictly required and reviewed
-- [ ] **Artifact attestation** — `actions/attest-build-provenance` on release
 
 ---
 
@@ -271,7 +216,7 @@ cd O.N.I.O.N
 # Review the architecture docs
 cat README.md
 
-# (Coming soon) Start local development environment
+# Start local development when available
 # docker compose up
 ```
 
@@ -280,7 +225,7 @@ cat README.md
 ## 🤝 Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
-All contributors must follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 

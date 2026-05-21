@@ -1,0 +1,71 @@
+# Policy Configuration
+
+version: "1.0.0"
+policies:
+  # Security Policies
+  security:
+    - id: SEC-001
+      name: "No Hardcoded Secrets"
+      description: "Code must not contain hardcoded secrets"
+      severity: critical
+      action: deny
+      
+    - id: SEC-002
+      name: "TLS Required"
+      description: "All external communication must use TLS"
+      severity: high
+      action: conditional
+      
+  # Child Safety Policies
+  child_safety:
+    - id: SAFE-001
+      name: "Age Verification Required"
+      description: "Age-restricted actions require verification"
+      severity: critical
+      action: conditional
+      obligations: ["require_parent_approval"]
+      
+    - id: SAFE-002
+      name: "Content Filter"
+      description: "Inappropriate content must be blocked"
+      severity: critical
+      action: deny
+      
+    - id: SAFE-003
+      name: "Default Deny"
+      description: "Unknown actions default to deny"
+      severity: high
+      action: deny
+      
+  # Compliance Policies
+  compliance:
+    - id: COMP-001
+      name: "Audit Logging Required"
+      description: "All decisions must be audited"
+      severity: high
+      action: conditional
+      obligations: ["log_to_audit"]
+      
+    - id: COMP-002
+      name: "Documentation Required"
+      description: "Required documentation must exist"
+      severity: medium
+      action: conditional
+
+# Reason Codes
+reason_codes:
+  ALL_POLICIES_SATISFIED: "All policy checks passed"
+  MISSING_REQUIRED_DOCS: "Required documentation missing"
+  HARDCODED_SECRETS: "Hardcoded secrets detected"
+  AGE_RESTRICTION: "User age below minimum for action"
+  REQUIRES_PARENT_APPROVAL: "Action requires parent approval"
+  CONTENT_VIOLATION: "Content violates safety policies"
+  UNKNOWN_ACTION: "Action not recognized (default deny)"
+  
+# Obligations
+obligations:
+  REQUIRE_APPROVAL: "Human approval required before proceeding"
+  LOG_TO_AUDIT: "Event must be logged to audit service"
+  NOTIFY_PARENT: "Parent must be notified"
+  VERIFY_AGE: "Age verification required"
+  FIX_VIOLATIONS: "Violations must be corrected"

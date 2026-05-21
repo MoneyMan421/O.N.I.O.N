@@ -5,7 +5,7 @@
 [![Responsible AI](https://img.shields.io/badge/Responsible%20AI-6%20Principles-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
 [![OWASP CI/CD Security](https://img.shields.io/badge/OWASP-CI%2FCD%20Security-orange)](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
-> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable system design.
+> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable system design.
 
 ---
 
@@ -13,7 +13,7 @@
 
 O.N.I.O.N exists to build systems that **never operate without verification** and **never make decisions without responsibility**.
 
-Our mission and our Responsible AI commitment are inseparable. We design systems that are safe, secure, explainable, accountable, and governed by human oversight at every layer. In O.N.I.O.N, trust is never assumed; it is earned through validation, transparency, and evidence.
+Our mission and our Responsible AI commitment are one framework. We do not separate technical execution from ethical responsibility. We design systems that are safe, secure, explainable, accountable, and guided by human oversight at every layer. In O.N.I.O.N, trust is never assumed — it is earned through validation, transparency, and evidence.
 
 ### Core Mission Standards
 
@@ -31,7 +31,7 @@ Our mission and our Responsible AI commitment are inseparable. We design systems
 
 | Principle | Expression in O.N.I.O.N |
 |---|---|
-| ⚖️ **Fairness** | Decisions are policy-driven, reviewable, and designed to reduce arbitrary outcomes |
+| ⚖️ **Fairness** | Decisions are policy-driven, reviewable, and designed to reduce arbitrary or biased outcomes |
 | 🛡️ **Reliability & Safety** | Systems are tested, monitored, and denied by default when uncertainty creates risk |
 | 🔒 **Privacy & Security** | Child data is minimized, protected, encrypted, and governed carefully |
 | 🌍 **Inclusiveness** | Safeguards and explanations are designed for real families, guardians, and oversight roles |
@@ -45,15 +45,15 @@ Our mission and our Responsible AI commitment are inseparable. We design systems
 
 ## 🧅 What O.N.I.O.N Means
 
-The acronym describes how the system works in ways that are understandable to both technical teams and children.
+The acronym describes how the system works in a way that is understandable to both technical teams and children.
 
-| Letter | System Meaning | Kid-Friendly Meaning | Purpose |
+| Letter | AI Meaning | Kid-Friendly Meaning | What It Does |
 |---|---|---|---|
-| **O** | Observe / Origin | 👀 Look | Collect safe inputs and establish trusted origin |
-| **N** | Notice / Navigate | 🔎 Notice | Detect patterns, anomalies, and risk signals |
-| **I** | Infer / Imagine | 🤔 Think | Reason carefully and choose safe options |
-| **O** | Operate / Organize | ✅ Do | Apply policy, enforce constraints, and act safely |
-| **N** | Narrate / Notify | 📢 Tell | Explain decisions and notify the right people |
+| **O** | Observe / Origin | 👀 Look | Collect safe inputs and check where they came from |
+| **N** | Notice / Navigate | 🔎 Notice | Detect patterns, changes, and possible risk signals |
+| **I** | Infer / Imagine | 🤔 Think | Reason carefully about what is happening and what is safest |
+| **O** | Operate / Organize | ✅ Do | Apply rules, enforce constraints, and act safely |
+| **N** | Narrate / Notify | 📢 Tell | Explain the decision and tell the right people |
 
 **Kid version:** **Look → Notice → Think → Do → Tell**
 
@@ -61,16 +61,22 @@ The acronym describes how the system works in ways that are understandable to bo
 
 ## 🧠 Core Architecture
 
-O.N.I.O.N uses a layered, defense-in-depth architecture so that no single action, system, or control is trusted by itself.
+O.N.I.O.N uses a layered, defense-in-depth architecture so that no single action, service, or control is trusted by itself.
 
 ### Layered Model
 
 ```mermaid
 flowchart TD
-    L1[Layer 1: Input Validation & Origin Trust] --> L2[Layer 2: Threat Detection & Risk Scoring]
-    L2 --> L3[Layer 3: Inference Engine & Policy Evaluation]
-    L3 --> L4[Layer 4: Enforcement & Constraint Application]
-    L4 --> L5[Layer 5: Audit, Narration & Guardian Notification]
+    A[Observe / Origin\nLook\nSafe Inputs + Trusted Origin] --> B[Notice / Navigate\nNotice\nThreat Detection + Risk Signals]
+    B --> C[Infer / Imagine\nThink\nReasoning + Policy Evaluation]
+    C --> D[Operate / Organize\nDo\nEnforcement + Constraints]
+    D --> E[Narrate / Notify\nTell\nAudit + Explanation + Guardian Notification]
+
+    M1[Responsibility] --- A
+    M2[Safety] --- B
+    M3[Explainability] --- C
+    M4[Security + Compliance + Constraints] --- D
+    M5[Accountability + Transparency] --- E
 ```
 
 ### Core Services
@@ -92,11 +98,13 @@ flowchart TD
 - **Audit proves** what happened and why
 - **Verification validates** every critical layer continuously
 
+In simple terms: **agents can suggest, policy decides, systems enforce, and audit explains**.
+
 ---
 
 ## 🔁 Full System Flow
 
-The flow below shows how mission standards and Responsible AI principles are embedded into the end-to-end operating model.
+The full operating flow below shows how mission standards and Responsible AI principles are embedded into the end-to-end lifecycle.
 
 ```text
 ────────────────────────────────────────────────────────────────────────
@@ -116,7 +124,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: accountability, integrity, constraints
    │ 🧠 RAI: transparency, accountability
    ▼
-🧅 L1 — ENTRY / TRIGGER
+🧅 L1 — OBSERVE / ENTRY / TRIGGER
 ┌───────────────────────────────────────────────────────────┐
 │ GitHub Actions Trigger                                   │
 │ - workflow events (push / PR)                            │
@@ -126,7 +134,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: responsibility, security
    │ 🧠 RAI: transparency, accountability
    ▼
-🧅 L2 — BUILD
+🧅 L2 — NOTICE / BUILD
 ┌───────────────────────────────────────────────────────────┐
 │ Build & Package                                          │
 │ - install dependencies                                   │
@@ -137,7 +145,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: integrity, natural ability, constraints
    │ 🧠 RAI: reliability & safety
    ▼
-🧅 L3 — TEST
+🧅 L3 — INFER / TEST
 ┌───────────────────────────────────────────────────────────┐
 │ Test & Quality Gates                                     │
 │ - unit / integration tests                               │
@@ -148,7 +156,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: safety, responsibility, explainability
    │ 🧠 RAI: reliability & safety, fairness
    ▼
-🧅 L4 — POLICY
+🧅 L4 — INFER / POLICY DECISION
 ┌───────────────────────────────────────────────────────────┐
 │ Policy Decision Point (PDP)                              │
 │ - security checks + compliance rules                     │
@@ -159,7 +167,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: accountability, explainability, compliance, constraints
    │ 🧠 RAI: fairness, transparency, accountability
    ▼
-🧅 L5 — CONTROL / HUMAN OVERSIGHT
+🧅 L5 — OPERATE / HUMAN OVERSIGHT
 ┌───────────────────────────────────────────────────────────┐
 │ Approval Gate                                            │
 │ - parent approval for sensitive actions                  │
@@ -169,7 +177,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: responsibility, accountability, safety
    │ 🧠 RAI: accountability, inclusiveness
    ▼
-🧅 L6 — DEPLOY / ENFORCEMENT
+🧅 L6 — OPERATE / DEPLOY / ENFORCEMENT
 ┌───────────────────────────────────────────────────────────┐
 │ Deploy to Azure / Runtime Enforcement                    │
 │ - deploy revision                                        │
@@ -180,7 +188,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: security, compliance, integrity, constraints
    │ 🧠 RAI: privacy & security
    ▼
-🧅 L7 — RUNTIME VERIFICATION
+🧅 L7 — NARRATE / RUNTIME VERIFICATION
 ┌───────────────────────────────────────────────────────────┐
 │ Runtime Checks                                           │
 │ - health / readiness / liveness                          │
@@ -190,7 +198,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: safety, responsibility
    │ 🧠 RAI: reliability & safety
    ▼
-🧅 L8 — AUDIT / TRACEABILITY
+🧅 L8 — NARRATE / AUDIT / TRACEABILITY
 ┌───────────────────────────────────────────────────────────┐
 │ Audit Evidence                                           │
 │ - decision logs + correlation IDs                        │
@@ -200,7 +208,7 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 MISSION: explainability, accountability, integrity
    │ 🧠 RAI: transparency, accountability
    ▼
-🧅 L9 — MONITOR / FEEDBACK LOOP
+🧅 L9 — NARRATE / MONITOR / FEEDBACK LOOP
 ┌───────────────────────────────────────────────────────────┐
 │ Monitoring / Observability                               │
 │ - logs / metrics / alerts                                │
@@ -211,6 +219,32 @@ Inclusiveness • Transparency • Accountability
    │ 🧠 RAI: reliability & safety, transparency
    ▼
 🔁 Continuous loop: Commit → Verify → Decide → Approve → Deploy → Audit → Monitor → Improve
+```
+
+### Mermaid Flow View
+
+```mermaid
+flowchart TD
+    A[GitHub Source\nCommit / PR / Merge] --> B[Observe / Entry / Trigger\nLook]
+    B --> C[Notice / Build\nNotice]
+    C --> D[Infer / Test\nThink]
+    D --> E[Infer / Policy Decision\nThink]
+    E --> F[Operate / Human Oversight\nDo]
+    F --> G[Operate / Deploy / Enforcement\nDo]
+    G --> H[Narrate / Runtime Verification\nTell]
+    H --> I[Narrate / Audit / Traceability\nTell]
+    I --> J[Narrate / Monitor / Feedback\nTell]
+
+    R1[Responsibility + Accountability] --- A
+    R2[Security + Integrity] --- B
+    R3[Natural Ability + Reliability] --- C
+    R4[Safety + Fairness] --- D
+    R5[Explainability + Transparency] --- E
+    R6[Human Oversight + Inclusiveness] --- F
+    R7[Compliance + Privacy + Security] --- G
+    R8[Reliability + Safety] --- H
+    R9[Accountability + Transparency] --- I
+    R10[Continuous Improvement] --- J
 ```
 
 ---
@@ -316,8 +350,8 @@ onion-guardian-agent/
 git clone https://github.com/Big-Orga/O.N.I.O.N.git
 cd O.N.I.O.N
 
-# Review the system overview
-cat README.md
+# Review the refined system overview
+cat README-.2
 ```
 
 ---

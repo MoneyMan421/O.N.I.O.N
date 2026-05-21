@@ -262,7 +262,7 @@ flowchart TD
 | **Runtime** | Requests are authorized | PEP → PDP policy enforcement |
 | **Data** | Inputs are safe | Input validation, schema checks, and minimization |
 | **Decisions** | Decisions are explainable | Reason codes, audit logs, and trace evidence |
-| **Alerts** | Guardians are notified | Notification rules and escalation paths |
+| Alerts | Guardians are notified | Notification rules and escalation paths |
 
 ---
 
@@ -288,6 +288,16 @@ flowchart TD
 
 ---
 
+## 🛑 Safety Invariants (NON NEGOTIABLE)
+
+- No action without PDP = ALLOW
+- No autonomous high-risk decisions
+- Default = DENY when uncertain
+- Human approval required for sensitive actions
+- All decisions must include reason codes
+
+---
+
 ## 🔒 Compliance, Safety & Security Guidelines
 
 ### Security Principles
@@ -297,6 +307,22 @@ flowchart TD
 - **Dependency discipline** — lock dependencies and monitor drift
 - **Audit everything** — record builds, releases, decisions, and runtime changes
 
+### GitHub Actions Workflow Security
+
+Workflows must follow least-privilege principles. Use per-scope permissions — not a single blanket `read` value. For example:
+
+```yaml
+permissions:
+  contents: read
+  id-token: write
+```
+
+Additional workflow hardening requirements:
+- Pin third-party actions to a specific commit SHA
+- Use OIDC (`id-token: write`) instead of long-lived static secrets
+- Run dependency vulnerability scanning (e.g., `pip-audit`, `npm audit`) as a required CI gate
+- Restrict `permissions` to only scopes required by the job
+
 ### Safety Rules
 - **No autonomous action without policy approval** — `policy-pdp` must return `ALLOW`
 - **No silent failures** — significant failures must surface to `notification-service`
@@ -304,8 +330,8 @@ flowchart TD
 - **Data minimization** — collect only necessary child data and retain it carefully
 
 ### Privacy
-- Telemetry is minimized and protected before storage
-- Sensitive data is encrypted in transit and at rest
+- Telemetry must be minimized and protected before storage
+- Sensitive data must be encrypted in transit and at rest
 - Retention policies and access controls must be enforced
 
 ### Regulatory Alignment
@@ -316,46 +342,175 @@ flowchart TD
 
 ---
 
-## 📦 Recommended Repository Structure
+## 📦 Repository Structure
+
+This repository is organized as a production-grade monorepo separating services, agents, packages, infrastructure, configuration, documentation, scripts, tests, and resources.
 
 ```text
 onion-guardian-agent/
-├── README.md
-├── legacy-README.1.md
-├── legacy-README.2.md
+│
+├── README.md                        # Full system doc (this file)
 ├── LICENSE
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── CHANGELOG.md
+│
 ├── .gitignore
 ├── docker-compose.yml
+│
 ├── .github/
-├── services/
-├── agents/
-├── packages/
-├── infrastructure/
+│   ├── workflows/
+│   │   ├── ci.yml                   # Build + test pipeline
+│   │   ├── security.yml             # Security scans / SAST / SCA
+│   │   ├── deploy.yml               # Deploy to Azure / cloud
+│   │   └── policy-check.yml         # PDP validation before deploy
+│   │
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   │
+│   └── PULL_REQUEST_TEMPLATE.md
+│
+├── services/                        # 🧅 Core Microservices
+│   ├── api-gateway/                 # PEP (policy enforcement point)
+│   │   ├── Dockerfile
+│   │   ├── package.json
+│   │   └── src/
+│   │
+│   ├── policy-pdp/                  # PDP (decision engine)
+│   │   ├── Dockerfile
+│   │   └── src/
+│   │
+│   ├── approval-service/            # Parent approval / human oversight
+│   │   └── src/
+│   │
+│   ├── telemetry-ingest/            # Intake and validation of signals
+│   │   └── src/
+│   │
+│   ├── notification-service/        # Alerts (parent / child / staff)
+│   │   └── src/
+│   │
+│   └── audit-service/               # Immutable logs / trace / evidence
+│       └── src/
+│
+├── agents/                          # 🤖 Agent Layer (non-authoritative)
+│   ├── behavior-agent/              # Detects risk patterns
+│   ├── anomaly-agent/               # Anomaly / safety detection
+│   ├── context-agent/               # Enriches signals with context
+│   └── explanation-agent/           # Builds explanations only
+│
+├── packages/                        # Shared libraries and utilities
+│   ├── shared-types/
+│   ├── policy-sdk/
+│   ├── logging-lib/
+│   └── utils/
+│
+├── infrastructure/                  # ☁️ Infrastructure as Code
+│   ├── terraform/
+│   │   ├── modules/
+│   │   └── environments/
+│   │       ├── dev/
+│   │       ├── staging/
+│   │       └── prod/
+│   │
+│   ├── k8s/                         # Kubernetes / Azure manifests
+│   │   ├── api-gateway.yaml
+│   │   ├── policy-pdp.yaml
+│   │   └── audit.yaml
+│   │
+│   └── scripts/
+│       ├── deploy.sh
+│       └── rollback.sh
+│
 ├── ci-cd/
-├── configs/
-├── docs/
-├── scripts/
-├── tests/
-└── resources/
+│   ├── github-actions/
+│   │   ├── build.yml
+│   │   ├── test.yml
+│   │   └── deploy.yml
+│   └── pipelines.md
+│
+├── configs/                         # ⚙️ Configuration
+│   ├── dev.env
+│   ├── staging.env
+│   ├── prod.env
+│   └── policy-config.yaml
+│
+├── docs/                            # 📚 Compliance, Safety & Architecture
+│   ├── 00-governance/
+│   │   ├── mission.md
+│   │   ├── responsible-ai.md
+│   │   └── roles.md
+│   │
+│   ├── 01-risk/
+│   │   ├── threat-model.md
+│   │   └── risk-register.md
+│   │
+│   ├── 02-policy/
+│   │   ├── pdp-contract.md
+│   │   ├── reason-codes.md
+│   │   └── obligations.md
+│   │
+│   ├── 03-architecture/
+│   │   ├── diagrams.md
+│   │   └── onion-model.md
+│   │
+│   ├── 04-security/
+│   │   ├── auth.md
+│   │   ├── secrets.md
+│   │   └── ci-cd-security.md
+│   │
+│   ├── 05-safety/
+│   │   ├── child-safety.md
+│   │   ├── guardrails.md
+│   │   └── approval-flows.md
+│   │
+│   ├── 06-compliance/
+│   │   ├── checklist.md
+│   │   ├── audit-requirements.md
+│   │   └── standards-mapping.md
+│   │
+│   ├── 07-verification/
+│   │   ├── test-strategy.md
+│   │   └── runtime-validation.md
+│   │
+│   ├── 08-audit/
+│   │   ├── audit-schema.md
+│   │   └── evidence.md
+│   │
+│   └── 09-agents/
+│       ├── agent-contract.md
+│       └── safety-rules.md
+│
+├── scripts/                         # Automation and dev tools
+│   ├── build.sh
+│   ├── test.sh
+│   ├── lint.sh
+│   └── local-dev.sh
+│
+├── tests/                           # ✅ Verification
+│   ├── unit/
+│   ├── integration/
+│   ├── security/
+│   └── e2e/
+│
+└── resources/                       # Images, diagrams, assets
+    ├── diagrams/
+    └── images/
 ```
 
 ---
 
-## 📚 Documentation Structure Recommendation
+## 📚 Documentation Structure
 
-Use this simple repository documentation structure going forward:
+Use the following conventions for deeper reference documentation:
 
 - `README.md` — primary public-facing overview
-- `legacy-README.1.md` — earlier refined README reference
-- `legacy-README.2.md` — formal architecture-oriented README reference
 - `docs/00-governance/` — mission, roles, and responsible AI governance
 - `docs/03-architecture/` — diagrams, layered model, and runtime design
 - `docs/05-safety/` — child-safety guardrails and approval flows
 - `docs/06-compliance/` — audit checklists, standards mapping, and evidence requirements
+- `docs/09-agents/` — agent contracts and safety rules
 - `resources/diagrams/` — Mermaid sources and visual assets
 
 This keeps the main README readable for visitors while preserving deeper reference material in stable supporting files.
@@ -378,7 +533,8 @@ cat README.md
 ## 🤝 Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.  
-All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md).  
+To report security issues, see [SECURITY.md](SECURITY.md).
 
 ---
 

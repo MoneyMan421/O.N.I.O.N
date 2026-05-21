@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  # API Gateway - Policy Enforcement Point (PEP)
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PDP_SERVICE_URL=http://policy-pdp:8081
+      - AUDIT_SERVICE_URL=http://audit-service:8084
+    depends_on:
+      - policy-pdp
+      - audit-service
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Policy Decision Point (PDP)
+  policy-pdp:
+    build:
+      context: ./services/policy-pdp
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - POLICY_CONFIG_PATH=/app/configs/policy-config.yaml
+    volumes:
+      - ./configs:/app/configs:ro
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Approval Service - Parent/Guardian Approval
+  approval-service:
+    build:
+      context: ./services/approval-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8083
+      - AUDIT_SERVICE_URL=http://audit-service:8084
+    depends_on:
+      - notification-service
+      - audit-service
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Notification Service - Alerts and Communications
+  notification-service:
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Audit Service - Immutable Logging
+  audit-service:
+    build:
+      context: ./services/audit-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - DATABASE_URL=${AUDIT_DATABASE_URL}
+    volumes:
+      - audit-data:/var/lib/audit
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Telemetry Ingest - Signal Collection
+  telemetry-ingest:
+    build:
+      context: ./services/telemetry-ingest
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - AUDIT_SERVICE_URL=http://audit-service:8084
+    depends_on:
+      - audit-service
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Behavior Agent - Risk Pattern Detection
+  behavior-agent:
+    build:
+      context: ./agents/behavior-agent
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - TELEMETRY_SERVICE_URL=http://telemetry-ingest:8085
+    depends_on:
+      - telemetry-ingest
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Anomaly Agent - Safety Detection
+  anomaly-agent:
+    build:
+      context: ./agents/anomaly-agent
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - TELEMETRY_SERVICE_URL=http://telemetry-ingest:8085
+    depends_on:
+      - telemetry-ingest
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Context Agent - Signal Enrichment
+  context-agent:
+    build:
+      context: ./agents/context-agent
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - TELEMETRY_SERVICE_URL=http://telemetry-ingest:8085
+    depends_on:
+      - telemetry-ingest
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+  # Explanation Agent - Decision Explanations
+  explanation-agent:
+    build:
+      context: ./agents/explanation-agent
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PDP_SERVICE_URL=http://policy-pdp:8081
+    depends_on:
+      - policy-pdp
+    networks:
+      - onion-network
+    restart: unless-stopped
+
+volumes:
+  audit-data:
+    driver: local
+
+networks:
+  onion-network:
+    driver: bridge

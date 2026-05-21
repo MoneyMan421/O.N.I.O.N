@@ -1,0 +1,188 @@
+name: CI - Build & Test Pipeline (L2-L3)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18.x'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # L2 - BUILD: Artifact Integrity
+  build:
+    name: Build & Package
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build services
+        run: |
+          npm run build --workspaces --if-present
+      
+      - name: Build Docker images
+        run: |
+          docker-compose build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            services/*/dist
+            agents/*/dist
+          retention-days: 7
+      
+      # RAI: Reliability (reproducible builds)
+      - name: Verify build reproducibility
+        run: |
+          echo "Build hash verification would go here"
+          # Implement reproducible build verification
+
+  # L3 - TEST: Quality + Safety
+  test:
+    name: Test & Quality Gates
+    runs-on: ubuntu-latest
+    needs: build
+    
+    strategy:
+      matrix:
+        test-suite: [unit, integration, security]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ${{ matrix.test-suite }} tests
+        run: |
+          npm run test:${{ matrix.test-suite }} --workspaces --if-present
+      
+      - name: Generate coverage report
+        if: matrix.test-suite == 'unit'
+        run: |
+          npm run coverage --workspaces --if-present
+      
+      - name: Upload coverage to Codecov
+        if: matrix.test-suite == 'unit'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+      
+      # RAI: Reliability & Safety
+      - name: Check coverage threshold
+        if: matrix.test-suite == 'unit'
+        run: |
+          # Enforce minimum 80% coverage
+          npm run check:coverage
+
+  lint:
+    name: Lint & Static Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint --workspaces --if-present
+      
+      - name: Run Prettier check
+        run: npm run format:check --if-present
+      
+      - name: Run TypeScript compiler check
+        run: npm run type-check --workspaces --if-present
+
+  # Child Safety Verification
+  safety-tests:
+    name: Child Safety Verification
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      # RAI: Safety verification for child-focused features
+      - name: Run safety guardrail tests
+        run: |
+          npm run test:safety --workspaces --if-present
+      
+      - name: Verify default deny behavior
+        run: |
+          npm run test:default-deny --if-present
+      
+      - name: Verify parent approval flows
+        run: |
+          npm run test:approval --if-present
+
+  ci-summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [build, test, lint, safety-tests]
+    if: always()
+    
+    steps:
+      - name: Check all jobs status
+        run: |
+          if [ "${{ needs.build.result }}" != "success" ] || \
+             [ "${{ needs.test.result }}" != "success" ] || \
+             [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.safety-tests.result }}" != "success" ]; then
+            echo "CI pipeline failed"
+            exit 1
+          fi
+          echo "✅ All CI checks passed"
+      
+      - name: Post status comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ CI Pipeline (L2-L3) completed successfully'
+            })

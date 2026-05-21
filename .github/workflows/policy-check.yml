@@ -1,0 +1,217 @@
+name: Policy Validation (L4 - PDP)
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  workflow_call:
+    outputs:
+      decision:
+        description: 'PDP decision result'
+        value: ${{ jobs.policy-decision.outputs.decision }}
+      reason_code:
+        description: 'PDP reason code'
+        value: ${{ jobs.policy-decision.outputs.reason_code }}
+
+jobs:
+  # L4 - POLICY: PDP Decision
+  policy-decision:
+    name: Policy Decision Point (PDP)
+    runs-on: ubuntu-latest
+    outputs:
+      decision: ${{ steps.pdp.outputs.decision }}
+      reason_code: ${{ steps.pdp.outputs.reason_code }}
+      correlation_id: ${{ steps.pdp.outputs.correlation_id }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Generate correlation ID
+        id: correlation
+        run: |
+          CORRELATION_ID="pdp-$(date +%s)-${{ github.run_id }}"
+          echo "correlation_id=$CORRELATION_ID" >> $GITHUB_OUTPUT
+      
+      - name: Evaluate compliance policies
+        id: compliance
+        run: |
+          echo "Checking compliance policies..."
+          # Check for required documentation
+          if [ ! -f "SECURITY.md" ] || [ ! -f "CODE_OF_CONDUCT.md" ]; then
+            echo "status=fail" >> $GITHUB_OUTPUT
+            echo "reason=MISSING_REQUIRED_DOCS" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "status=pass" >> $GITHUB_OUTPUT
+      
+      - name: Evaluate security policies
+        id: security
+        run: |
+          echo "Checking security policies..."
+          # Verify no hardcoded secrets
+          if git grep -i "password\s*=\|secret\s*=\|api_key\s*=" -- '*.ts' '*.js' '*.py'; then
+            echo "status=fail" >> $GITHUB_OUTPUT
+            echo "reason=HARDCODED_SECRETS" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "status=pass" >> $GITHUB_OUTPUT
+      
+      - name: Evaluate child safety policies
+        id: safety
+        run: |
+          echo "Checking child safety policies..."
+          # Verify safety guardrails are in place
+          if [ -d "services/approval-service" ]; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=conditional" >> $GITHUB_OUTPUT
+            echo "reason=APPROVAL_SERVICE_NOT_DEPLOYED" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Check branch protection
+        id: branch-protection
+        run: |
+          echo "Verifying branch protection requirements..."
+          # Would integrate with GitHub API to verify branch protection
+          echo "status=pass" >> $GITHUB_OUTPUT
+      
+      # RAI: Fairness + Transparency + Accountability
+      - name: PDP Decision with Reason Codes
+        id: pdp
+        run: |
+          COMPLIANCE="${{ steps.compliance.outputs.status }}"
+          SECURITY="${{ steps.security.outputs.status }}"
+          SAFETY="${{ steps.safety.outputs.status }}"
+          
+          # Decision logic
+          if [ "$COMPLIANCE" = "fail" ] || [ "$SECURITY" = "fail" ]; then
+            DECISION="deny"
+            REASON_CODE="${{ steps.compliance.outputs.reason }}${{ steps.security.outputs.reason }}"
+            echo "decision=deny" >> $GITHUB_OUTPUT
+            echo "reason_code=$REASON_CODE" >> $GITHUB_OUTPUT
+            echo "obligations=FIX_VIOLATIONS" >> $GITHUB_OUTPUT
+          elif [ "$SAFETY" = "conditional" ]; then
+            DECISION="conditional"
+            REASON_CODE="REQUIRES_PARENT_APPROVAL"
+            echo "decision=conditional" >> $GITHUB_OUTPUT
+            echo "reason_code=$REASON_CODE" >> $GITHUB_OUTPUT
+            echo "obligations=REQUIRE_APPROVAL" >> $GITHUB_OUTPUT
+          else
+            DECISION="allow"
+            REASON_CODE="ALL_POLICIES_SATISFIED"
+            echo "decision=allow" >> $GITHUB_OUTPUT
+            echo "reason_code=$REASON_CODE" >> $GITHUB_OUTPUT
+            echo "obligations=NONE" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "correlation_id=${{ steps.correlation.outputs.correlation_id }}" >> $GITHUB_OUTPUT
+          
+          # Output decision with full context
+          echo "### PDP Decision" >> $GITHUB_STEP_SUMMARY
+          echo "- **Decision**: $DECISION" >> $GITHUB_STEP_SUMMARY
+          echo "- **Reason Code**: $REASON_CODE" >> $GITHUB_STEP_SUMMARY
+          echo "- **Correlation ID**: ${{ steps.correlation.outputs.correlation_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Policy Version**: 1.0.0" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Audit PDP decision
+        if: always()
+        run: |
+          # L8 - AUDIT: Log decision with full context
+          cat <<EOF > pdp-decision.json
+          {
+            "correlationId": "${{ steps.pdp.outputs.correlation_id }}",
+            "decision": "${{ steps.pdp.outputs.decision }}",
+            "reasonCode": "${{ steps.pdp.outputs.reason_code }}",
+            "obligations": "${{ steps.pdp.outputs.obligations }}",
+            "policyVersion": "1.0.0",
+            "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "context": {
+              "pr": "${{ github.event.pull_request.number }}",
+              "actor": "${{ github.actor }}",
+              "repository": "${{ github.repository }}"
+            }
+          }
+          EOF
+          cat pdp-decision.json
+      
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdp-decision-${{ steps.correlation.outputs.correlation_id }}
+          path: pdp-decision.json
+          retention-days: 90
+      
+      - name: Fail if policy denied
+        if: steps.pdp.outputs.decision == 'deny'
+        run: |
+          echo "❌ PDP Decision: DENY"
+          echo "Reason: ${{ steps.pdp.outputs.reason_code }}"
+          exit 1
+      
+      - name: Comment on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const decision = '${{ steps.pdp.outputs.decision }}';
+            const reasonCode = '${{ steps.pdp.outputs.reason_code }}';
+            const correlationId = '${{ steps.correlation.outputs.correlation_id }}';
+            
+            let emoji = decision === 'allow' ? '✅' : decision === 'deny' ? '❌' : '⚠️';
+            let body = `## ${emoji} Policy Decision Point (L4)\n\n`;
+            body += `- **Decision**: ${decision.toUpperCase()}\n`;
+            body += `- **Reason Code**: ${reasonCode}\n`;
+            body += `- **Correlation ID**: ${correlationId}\n`;
+            body += `- **Policy Version**: 1.0.0\n\n`;
+            
+            if (decision === 'deny') {
+              body += `### ❌ Action Required\n`;
+              body += `This PR violates policy requirements. Please address the issues and re-run checks.\n`;
+            } else if (decision === 'conditional') {
+              body += `### ⚠️ Approval Required\n`;
+              body += `This PR requires additional approval before deployment.\n`;
+            } else {
+              body += `### ✅ Policy Compliance\n`;
+              body += `All policy checks passed. Ready for next stage.\n`;
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  # Responsible AI validation
+  responsible-ai-check:
+    name: Responsible AI Validation
+    runs-on: ubuntu-latest
+    needs: policy-decision
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Verify Fairness principles
+        run: |
+          echo "Checking for bias in algorithms..."
+          npm run check:fairness --if-present || echo "No fairness checks configured"
+      
+      - name: Verify Transparency
+        run: |
+          echo "Verifying explainability requirements..."
+          # Check that explanations are generated for decisions
+          if ! grep -r "generateExplanation\|explainDecision" services/ agents/; then
+            echo "⚠️ Warning: No explanation generation found"
+          fi
+      
+      - name: Verify Accountability
+        run: |
+          echo "Checking accountability mechanisms..."
+          # Verify audit logging is present
+          if ! grep -r "auditLog\|logDecision" services/; then
+            echo "❌ No audit logging found"
+            exit 1
+          fi

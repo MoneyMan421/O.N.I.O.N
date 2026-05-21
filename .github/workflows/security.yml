@@ -1,0 +1,191 @@
+name: Security Scanning (L4)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  # Static Application Security Testing (SAST)
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        language: [ 'javascript', 'python' ]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+      
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+
+  # Software Composition Analysis (SCA)
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=moderate
+      
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+      
+      - name: Check for vulnerable dependencies
+        run: |
+          npm run check:deps --if-present
+
+  # Container Security Scanning
+  container-scan:
+    name: Container Image Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build Docker images
+        run: |
+          docker-compose build
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: 'onion-api-gateway:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Secret Scanning
+  secret-scan:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+      
+      - name: Check for secrets in config
+        run: |
+          # Verify no secrets in config files
+          if grep -r "password\|secret\|token\|key" configs/*.env 2>/dev/null; then
+            echo "⚠️ Potential secrets found in config files"
+            exit 1
+          fi
+
+  # OWASP Dependency Check
+  owasp-check:
+    name: OWASP Dependency Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'O.N.I.O.N'
+          path: '.'
+          format: 'HTML'
+      
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports/
+
+  # RAI: Privacy & Security validation
+  privacy-check:
+    name: Privacy & Data Protection Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check for PII in logs
+        run: |
+          # Verify no PII is being logged
+          if grep -r "email\|phone\|address\|ssn" services/*/src --include="*.ts" --include="*.js" | grep -i "log\|console"; then
+            echo "⚠️ Potential PII logging detected"
+            exit 1
+          fi
+      
+      - name: Verify data encryption
+        run: |
+          # Check that sensitive data handling uses encryption
+          npm run check:encryption --if-present
+
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [codeql, dependency-scan, container-scan, secret-scan, owasp-check, privacy-check]
+    if: always()
+    
+    steps:
+      - name: Check security status
+        run: |
+          if [ "${{ needs.codeql.result }}" != "success" ] || \
+             [ "${{ needs.dependency-scan.result }}" != "success" ] || \
+             [ "${{ needs.container-scan.result }}" != "success" ] || \
+             [ "${{ needs.secret-scan.result }}" != "success" ]; then
+            echo "❌ Security scans failed"
+            exit 1
+          fi
+          echo "✅ All security scans passed"
+      
+      - name: Generate security badge
+        run: |
+          echo "Security scan completed at $(date)" > security-status.txt

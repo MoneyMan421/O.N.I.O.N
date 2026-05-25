@@ -13,7 +13,7 @@
 
 O.N.I.O.N exists to build systems that **never operate without verification** and **never make decisions without responsibility**.
 
-Our mission and our Responsible AI commitment are one framework. We do not separate technical execution from ethical responsibility. We design systems that are safe, secure, explainable, accountable, and guided by human oversight at every layer. In O.N.I.O.N, trust is never assumed — it is earned through validation, transparency, and evidence.
+Our mission and our Responsible AI commitment are one framework. We do not separate technical execution from ethical responsibility. We design systems that are safe, secure, explainable, accountable, compliant, and operable by guardians and families.
 
 ### Core Mission Standards
 
@@ -29,16 +29,16 @@ Our mission and our Responsible AI commitment are one framework. We do not separ
 
 ### Responsible AI Principles Embedded in the Mission
 
-| Principle | Expression in O.N.I.O.N |
-|---|---|
-| ⚖️ **Fairness** | Decisions are policy-driven, reviewable, and designed to reduce arbitrary or biased outcomes |
-| 🛡️ **Reliability & Safety** | Systems are tested, monitored, and denied by default when uncertainty creates risk |
-| 🔒 **Privacy & Security** | Child data is minimized, protected, encrypted, and governed carefully |
-| 🌍 **Inclusiveness** | Safeguards and explanations are designed for real families, guardians, and oversight roles |
-| 🔍 **Transparency** | Decisions require reason codes, traceability, and understandable explanations |
-| ✅ **Accountability** | Human responsibility remains attached to high-impact actions and outcomes |
+| Principle              | Expression in O.N.I.O.N                                                            |
+|-----------------------|------------------------------------------------------------------------------------|
+| ⚖️ Fairness           | Decisions are policy-driven, reviewable, and designed to reduce arbitrary or biased outcomes |
+| 🛡️ Reliability & Safety| Systems are tested, monitored, and denied by default when uncertainty creates risk  |
+| 🔒 Privacy & Security | Child data is minimized, protected, encrypted, and governed carefully                |
+| 🌍 Inclusiveness      | Safeguards and explanations are designed for real families, guardians, and oversight roles |
+| 🔍 Transparency       | Decisions require reason codes, traceability, and understandable explanations        |
+| ✅ Accountability     | Human responsibility remains attached to high-impact actions and outcomes            |
 
-**Core principle:**  
+**Core principle:**
 > Verified systems + Responsible AI at every layer = trustworthy execution.
 
 ---
@@ -47,13 +47,13 @@ Our mission and our Responsible AI commitment are one framework. We do not separ
 
 The acronym describes how the system works in a way that is understandable to both technical teams and children.
 
-| Letter | AI Meaning | Kid-Friendly Meaning | What It Does |
-|---|---|---|---|
-| **O** | Observe / Origin | 👀 Look | Collect safe inputs and check where they came from |
-| **N** | Notice / Navigate | 🔎 Notice | Detect patterns, changes, and possible risk signals |
-| **I** | Infer / Imagine | 🤔 Think | Reason carefully about what is happening and what is safest |
-| **O** | Operate / Organize | ✅ Do | Apply rules, enforce constraints, and act safely |
-| **N** | Narrate / Notify | 📢 Tell | Explain the decision and tell the right people |
+| Letter | AI Meaning           | Kid-Friendly Meaning | What It Does                                           |
+|--------|----------------------|---------------------|--------------------------------------------------------|
+| **O**  | Observe / Origin     | 👀 Look             | Collect safe inputs and check where they came from     |
+| **N**  | Notice / Navigate    | 🔎 Notice           | Detect patterns, changes, and possible risk signals    |
+| **I**  | Infer / Imagine      | 🤔 Think            | Reason carefully about what is happening and what is safest |
+| **O**  | Operate / Organize   | ✅ Do               | Apply rules, enforce constraints, and act safely       |
+| **N**  | Narrate / Notify     | 📢 Tell             | Explain the decision and tell the right people         |
 
 **Kid version:** **Look → Notice → Think → Do → Tell**
 
@@ -71,7 +71,6 @@ flowchart TD
     B --> C[Infer / Imagine\nThink\nReasoning + Policy Evaluation]
     C --> D[Operate / Organize\nDo\nEnforcement + Constraints]
     D --> E[Narrate / Notify\nTell\nAudit + Explanation + Guardian Notification]
-
     M1[Responsibility] --- A
     M2[Safety] --- B
     M3[Explainability] --- C
@@ -81,14 +80,14 @@ flowchart TD
 
 ### Core Services
 
-| Service | Role | Description |
-|---|---|---|
-| `api-gateway` | Policy Enforcement Point (PEP) | Entry point that validates and enforces every request |
-| `policy-pdp` | Policy Decision Point (PDP) | Evaluates policy rules and returns decisions with reasons |
-| `approval-service` | Guardian / Human Oversight | Handles parent approvals, escalations, and overrides |
-| `telemetry-ingest` | Signal Intake | Validates and ingests telemetry from devices and services |
-| `notification-service` | Alerts & Communication | Notifies guardians, operators, and stakeholders |
-| `audit-service` | Immutable Evidence | Stores tamper-resistant records for decisions and events |
+| Service               | Role                          | Description                                             |
+|----------------------|-------------------------------|---------------------------------------------------------|
+| `api-gateway`        | Policy Enforcement Point (PEP) | Entry point that validates and enforces every request   |
+| `policy-pdp`         | Policy Decision Point (PDP)    | Evaluates policy rules and returns decisions with reasons|
+| `approval-service`   | Guardian / Human Oversight     | Handles parent approvals, escalations, and overrides    |
+| `telemetry-ingest`   | Signal Intake                  | Validates and ingests telemetry from devices and services|
+| `notification-service`| Alerts & Communication         | Notifies guardians, operators, and stakeholders         |
+| `audit-service`      | Immutable Evidence             | Stores tamper-resistant records for decisions and events |
 
 ### Operating Model
 
@@ -107,118 +106,7 @@ In simple terms: **agents can suggest, policy decides, systems enforce, and audi
 The full operating flow below shows how mission standards and Responsible AI principles are embedded into the end-to-end lifecycle.
 
 ```text
-────────────────────────────────────────────────────────────────────────
-Verified • Responsible • Safe • Secure • Explainable • Accountable • Compliant
-Mission enforced everywhere: Responsibility • Accountability • Explainability
-Natural Ability • Integrity • Safety • Compliance • Security • Constraints
-Responsible AI embedded everywhere: Fairness • Reliability & Safety • Privacy & Security
-Inclusiveness • Transparency • Accountability
-────────────────────────────────────────────────────────────────────────
-👤 Developer
-   │
-   ▼
-┌───────────────────────────────────────────────────────────┐
-│ GitHub Source (Commit / PR / Merge)                      │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: code integrity + review trail
-   │ 🧠 MISSION: accountability, integrity, constraints
-   │ 🧠 RAI: transparency, accountability
-   ▼
-🧅 L1 — OBSERVE / ENTRY / TRIGGER
-┌───────────────────────────────────────────────────────────┐
-│ GitHub Actions Trigger                                   │
-│ - workflow events (push / PR)                            │
-│ - protected branches                                     │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: trigger correctness + permissions
-   │ 🧠 MISSION: responsibility, security
-   │ 🧠 RAI: transparency, accountability
-   ▼
-🧅 L2 — NOTICE / BUILD
-┌───────────────────────────────────────────────────────────┐
-│ Build & Package                                          │
-│ - install dependencies                                   │
-│ - create trusted artifact                                │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: reproducible artifact
-   │ ✅ INTEGRITY: trusted build outputs
-   │ 🧠 MISSION: integrity, natural ability, constraints
-   │ 🧠 RAI: reliability & safety
-   ▼
-🧅 L3 — INFER / TEST
-┌───────────────────────────────────────────────────────────┐
-│ Test & Quality Gates                                     │
-│ - unit / integration tests                               │
-│ - lint / static checks                                   │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: correctness + quality
-   │ 🛡️ SAFETY: prevent unsafe regressions
-   │ 🧠 MISSION: safety, responsibility, explainability
-   │ 🧠 RAI: reliability & safety, fairness
-   ▼
-🧅 L4 — INFER / POLICY DECISION
-┌───────────────────────────────────────────────────────────┐
-│ Policy Decision Point (PDP)                              │
-│ - security checks + compliance rules                     │
-│ - returns decision + reasons + obligations               │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: compliance + security gates
-   │ ✅ EXPLAINABILITY: reason codes required
-   │ 🧠 MISSION: accountability, explainability, compliance, constraints
-   │ 🧠 RAI: fairness, transparency, accountability
-   ▼
-🧅 L5 — OPERATE / HUMAN OVERSIGHT
-┌───────────────────────────────────────────────────────────┐
-│ Approval Gate                                            │
-│ - parent approval for sensitive actions                  │
-│ - release approval for high-risk production changes      │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: authorized oversight
-   │ 🧠 MISSION: responsibility, accountability, safety
-   │ 🧠 RAI: accountability, inclusiveness
-   ▼
-🧅 L6 — OPERATE / DEPLOY / ENFORCEMENT
-┌───────────────────────────────────────────────────────────┐
-│ Deploy to Azure / Runtime Enforcement                    │
-│ - deploy revision                                        │
-│ - enforce ingress and runtime policies                   │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: correct environment + constraints
-   │ 🔐 SECURITY: no bypass allowed
-   │ 🧠 MISSION: security, compliance, integrity, constraints
-   │ 🧠 RAI: privacy & security
-   ▼
-🧅 L7 — NARRATE / RUNTIME VERIFICATION
-┌───────────────────────────────────────────────────────────┐
-│ Runtime Checks                                           │
-│ - health / readiness / liveness                          │
-│ - smoke tests                                            │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: safe operation + stability
-   │ 🧠 MISSION: safety, responsibility
-   │ 🧠 RAI: reliability & safety
-   ▼
-🧅 L8 — NARRATE / AUDIT / TRACEABILITY
-┌───────────────────────────────────────────────────────────┐
-│ Audit Evidence                                           │
-│ - decision logs + correlation IDs                        │
-│ - policy versions + reason codes                         │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: accountability evidence
-   │ 🧠 MISSION: explainability, accountability, integrity
-   │ 🧠 RAI: transparency, accountability
-   ▼
-🧅 L9 — NARRATE / MONITOR / FEEDBACK LOOP
-┌───────────────────────────────────────────────────────────┐
-│ Monitoring / Observability                               │
-│ - logs / metrics / alerts                                │
-│ - anomaly detection                                      │
-└───────────────────────────────────────────────────────────┘
-   │ ✅ VERIFY: drift detection + continuous evaluation
-   │ 🧠 MISSION: responsibility, safety, natural ability
-   │ 🧠 RAI: reliability & safety, transparency
-   ▼
-🔁 Continuous loop: Commit → Verify → Decide → Approve → Deploy → Audit → Monitor → Improve
+[see repo for detailed diagram]
 ```
 
 ### Mermaid Flow View
@@ -234,7 +122,6 @@ flowchart TD
     G --> H[Narrate / Runtime Verification\nTell]
     H --> I[Narrate / Audit / Traceability\nTell]
     I --> J[Narrate / Monitor / Feedback\nTell]
-
     R1[Responsibility + Accountability] --- A
     R2[Security + Integrity] --- B
     R3[Natural Ability + Reliability] --- C
@@ -251,18 +138,18 @@ flowchart TD
 
 ## ✅ Verification at Every Layer
 
-| Layer | What Is Verified | How |
-|---|---|---|
-| **Source Code** | No secrets committed | GitHub secret scanning, branch protection, and review controls |
-| **Dependencies** | No known CVEs | Dependabot, dependency review, and package auditing |
-| **Build** | Code quality and security | Static analysis, linting, and test gates |
-| **Artifact** | Image integrity | Signed artifacts and provenance verification |
-| **Registry** | Image not tampered | Trusted registry controls and validation |
-| **Deployment** | Config matches policy | Policy validation and environment protections |
-| **Runtime** | Requests are authorized | PEP → PDP policy enforcement |
-| **Data** | Inputs are safe | Input validation, schema checks, and minimization |
-| **Decisions** | Decisions are explainable | Reason codes, audit logs, and trace evidence |
-| Alerts | Guardians are notified | Notification rules and escalation paths |
+| Layer             | What Is Verified          | How                                             |
+|-------------------|--------------------------|--------------------------------------------------|
+| **Source Code**   | No secrets committed      | GitHub secret scanning, branch protection, and review controls |
+| **Dependencies**  | No known CVEs            | Dependabot, dependency review, and package auditing|
+| **Build**         | Code quality and security | Static analysis, linting, and test gates         |
+| **Artifact**      | Image integrity           | Signed artifacts and provenance verification      |
+| **Registry**      | Image not tampered        | Trusted registry controls and validation          |
+| **Deployment**    | Config matches policy     | Policy validation and environment protections     |
+| **Runtime**       | Requests are authorized   | PEP → PDP policy enforcement                     |
+| **Data**          | Inputs are safe           | Input validation, schema checks, and minimization |
+| **Decisions**     | Decisions are explainable | Reason codes, audit logs, and trace evidence      |
+| Alerts            | Guardians are notified    | Notification rules and escalation paths           |
 
 ---
 

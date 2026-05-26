@@ -6,7 +6,7 @@
 [![Responsible AI](https://img.shields.io/badge/Responsible%20AI-6%20Principles-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
 [![OWASP CI/CD Security](https://img.shields.io/badge/OWASP-CI%2FCD%20Security-orange)](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
-> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable systems.
+> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable systems[...]
 
 ---
 
@@ -103,17 +103,155 @@ onion-guardian-agent/
 
 ---
 
-## 🟪 From Dev to Guardian (Overview)
+## 🧅 O.N.I.O.N End-to-End Secure Policy Workflow (Full Detail)
 
 ```mermaid
 flowchart TD
-    A[GitHub Source: Commit/PR] --> B[Observe/Entry]
-    B --> C[Notice/Build]
-    C --> D[Infer/Test, Policy]
-    D --> E[Operate/Human Oversight]
-    E --> F[Deploy/Enforce]
-    F --> G[Narrate/Verify/Audit]
-    G --> H[Monitor/Feedback]
+    A[GitHub Source\nCommit / PR / Merge] --> B[Observe / Entry / Trigger\nLook]
+    B --> C[Notice / Build\nNotice]
+    C --> D[Infer / Test\nThink]
+    D --> E[Infer / Policy Decision\nThink]
+    E --> F[Operate / Human Oversight\nDo]
+    F --> G[Operate / Deploy / Enforcement\nDo]
+    G --> H[Narrate / Runtime Verification\nTell]
+    H --> I[Narrate / Audit / Traceability\nTell]
+    I --> J[Narrate / Monitor / Feedback\nTell]
+
+    R1[Responsibility + Accountability] --- A
+    R2[Security + Integrity] --- B
+    R3[Natural Ability + Reliability] --- C
+    R4[Safety + Fairness] --- D
+    R5[Explainability + Transparency] --- E
+    R6[Human Oversight + Inclusiveness] --- F
+    R7[Compliance + Privacy + Security] --- G
+    R8[Reliability + Safety] --- H
+    R9[Accountability + Transparency] --- I
+    R10[Continuous Improvement] --- J
+
+────────────────────────────────────────────────────────────────────────
+Verified • Responsible • Safe • Secure • Explainable • Accountable • Compliant
+Mission enforced everywhere: Responsibility • Accountability • Explainability
+Natural Ability • Integrity • Safety • Compliance • Security • Constraints
+Responsible AI embedded everywhere: Fairness • Reliability & Safety • Privacy & Security
+Inclusiveness • Transparency • Accountability
+────────────────────────────────────────────────────────────────────────
+👤 Developer
+   │
+   ▼
+┌───────────────────────────────────────────────────────────┐
+│ GitHub Source (Commit / PR / Merge)                      │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: code integrity + review trail
+   │ 🧠 MISSION: accountability, integrity, constraints
+   │ 🧠 RAI: transparency, accountability
+   ▼
+🧅 L1 — OBSERVE / ENTRY / TRIGGER
+┌───────────────────────────────────────────────────────────┐
+│ GitHub Actions Trigger                                   │
+│ - workflow events (push / PR)                            │
+│ - protected branches                                     │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: trigger correctness + permissions
+   │ 🧠 MISSION: responsibility, security
+   │ 🧠 RAI: transparency, accountability
+   ▼
+🧅 L2 — NOTICE / BUILD
+┌───────────────────────────────────────────────────────────┐
+│ Build & Package                                          │
+│ - install dependencies                                   │
+│ - create trusted artifact                                │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: reproducible artifact
+   │ ✅ INTEGRITY: trusted build outputs
+   │ 🧠 MISSION: integrity, natural ability, constraints
+   │ 🧠 RAI: reliability & safety
+   ▼
+🧅 L3 — INFER / TEST
+┌───────────────────────────────────────────────────────────┐
+│ Test & Quality Gates                                     │
+│ - unit / integration tests                               │
+│ - lint / static checks                                   │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: correctness + quality
+   │ 🛡️ SAFETY: prevent unsafe regressions
+   │ 🧠 MISSION: safety, responsibility, explainability
+   │ 🧠 RAI: reliability & safety, fairness
+   ▼
+🧅 L4 — INFER / POLICY DECISION
+┌───────────────────────────────────────────────────────────┐
+│ Policy Decision Point (PDP)                              │
+│ - security checks + compliance rules                     │
+│ - returns decision + reasons + obligations               │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: compliance + security gates
+   │ ✅ EXPLAINABILITY: reason codes required
+   │ 🧠 MISSION: accountability, explainability, compliance, constraints
+   │ 🧠 RAI: fairness, transparency, accountability
+   ▼
+🧅 L5 — OPERATE / HUMAN OVERSIGHT
+┌───────────────────────────────────────────────────────────┐
+│ Approval Gate                                            │
+│ - parent approval for sensitive actions                  │
+│ - release approval for high-risk production changes      │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: authorized oversight
+   │ 🧠 MISSION: responsibility, accountability, safety
+   │ 🧠 RAI: accountability, inclusiveness
+   ▼
+🧅 L6 — OPERATE / DEPLOY / ENFORCEMENT
+┌───────────────────────────────────────────────────────────┐
+│ Deploy to Azure / Runtime Enforcement                    │
+│ - deploy revision                                        │
+│ - enforce ingress and runtime policies                   │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: correct environment + constraints
+   │ 🔐 SECURITY: no bypass allowed
+   │ 🧠 MISSION: security, compliance, integrity, constraints
+   │ 🧠 RAI: privacy & security
+   ▼
+🧅 L7 — NARRATE / RUNTIME VERIFICATION
+┌───────────────────────────────────────────────────────────┐
+│ Runtime Checks                                           │
+│ - health / readiness / liveness                          │
+│ - smoke tests                                            │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: safe operation + stability
+   │ 🧠 MISSION: safety, responsibility
+   │ 🧠 RAI: reliability & safety
+   ▼
+🧅 L8 — NARRATE / AUDIT / TRACEABILITY
+┌───────────────────────────────────────────────────────────┐
+│ Audit Evidence                                           │
+│ - decision logs + correlation IDs                        │
+│ - policy versions + reason codes                         │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: accountability evidence
+   │ 🧠 MISSION: explainability, accountability, integrity
+   │ 🧠 RAI: transparency, accountability
+   ▼
+🧅 L9 — NARRATE / MONITOR / FEEDBACK LOOP
+┌───────────────────────────────────────────────────────────┐
+│ Monitoring / Observability                               │
+│ - logs / metrics / alerts                                │
+│ - anomaly detection                                      │
+└───────────────────────────────────────────────────────────┘
+   │ ✅ VERIFY: drift detection + continuous evaluation
+   │ 🧠 MISSION: responsibility, safety, natural ability
+   │ 🧠 RAI: reliability & safety, transparency
+   ▼
+🔁 Continuous loop: Commit → Verify → Decide → Approve → Deploy → Audit → Monitor → Improve
+
+flowchart TD
+    A[Observe / Origin\nLook\nSafe Inputs + Trusted Origin] --> B[Notice / Navigate\nNotice\nThreat Detection + Risk Signals]
+    B --> C[Infer / Imagine\nThink\nReasoning + Policy Evaluation]
+    C --> D[Operate / Organize\nDo\nEnforcement + Constraints]
+    D --> E[Narrate / Notify\nTell\nAudit + Explanation + Guardian Notification]
+
+    M1[Responsibility] --- A
+    M2[Safety] --- B
+    M3[Explainability] --- C
+    M4[Security + Compliance + Constraints] --- D
+    M5[Accountability + Transparency] --- E
 ```
 
 ---

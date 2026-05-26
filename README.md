@@ -4,7 +4,6 @@
 
 [![GitHub Best Practices](https://img.shields.io/badge/GitHub-Best%20Practices-blue)](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories)
 [![Responsible AI](https://img.shields.io/badge/Responsible%20AI-6%20Principles-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
-[![Core Principles](https://img.shields.io/badge/Core%20Principles-9%20Pillars-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
 [![OWASP CI/CD Security](https://img.shields.io/badge/OWASP-CI%2FCD%20Security-orange)](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
 > O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable systems.
@@ -13,23 +12,32 @@
 
 ## 🎯 Mission
 
-Build systems that:
-- ✅ Never act without verification
-- ✅ Never decide without accountability
-- ✅ Always explain their decisions
-- ✅ Always prioritize safety (especially for children)
+- **Never act without verification**
+- **Never decide without accountability**
+- **Always explain all decisions**
+- **Always prioritize safety (especially for children)**
 
 ---
 
-## 🧅 ONION Acronym (AI + Kid-Friendly)
+## 📦 Quickstart
 
-| Letter | AI Meaning                        | Kid-Friendly |
-|--------|-----------------------------------|--------------|
-| O      | Observe / Origin (input data)     | Look         |
-| N      | Notice / Navigate (detect signals)| Notice       |
-| I      | Infer / Imagine (decision making) | Think        |
-| O      | Operate / Organize (policy exec)  | Do           |
-| N      | Narrate / Notify (explain + alert)| Tell         |
+```bash
+git clone https://github.com/MoneyMan421/O.N.I.O.N.git
+cd O.N.I.O.N
+cat README.md
+```
+
+---
+
+## 🧅 ONION Acronym
+
+| Letter | AI Meaning                     | Kid-Friendly |
+|--------|--------------------------------|--------------|
+| O      | Observe / Origin (input data)  | Look         |
+| N      | Notice / Navigate (signals)    | Notice       |
+| I      | Infer / Imagine (decide)       | Think        |
+| O      | Operate / Organize (execute)   | Do           |
+| N      | Narrate / Notify (explain)     | Tell         |
 
 *Flow: Observe → Notice → Infer → Operate → Narrate*
 
@@ -37,48 +45,40 @@ Build systems that:
 
 ## 🧠 Responsible AI Commitment
 
-ONION enforces the 6 Responsible AI principles:
+| Principle            | Meaning               |
+|----------------------|----------------------|
+| Fairness             | Avoid bias           |
+| Reliability & Safety | Behave safely        |
+| Privacy & Security   | Protect user data    |
+| Inclusiveness        | Accessible to all    |
+| Transparency         | Explainable choices  |
+| Accountability       | Human oversight      |
 
-| Principle            | Meaning                          |
-|----------------------|----------------------------------|
-| Fairness             | Avoid bias in decisions          |
-| Reliability & Safety | Systems must behave safely       |
-| Privacy & Security   | Protect user data                |
-| Inclusiveness        | Accessible to all users          |
-| Transparency         | Decisions must be explainable    |
-| Accountability       | Humans remain responsible        |
-
-These principles are recognized as core Responsible AI standards.  
-Source: [Microsoft Responsible AI](https://www.microsoft.com/en-us/ai/responsible-ai)
+See [Microsoft Responsible AI](https://www.microsoft.com/en-us/ai/responsible-ai)
 
 ---
 
-## 🏗 Core Architecture (5-Layer Defense)
+## 🏗 Architecture: Layered Defense
 
-**Architecture Layers**
-```
+```text
 🧅 L1: INPUT    (Observe)
 🧅 L2: SIGNAL   (Notice)
 🧅 L3: DECISION (Infer → PDP)
 🧅 L4: CONTROL  (Operate → PEP)
-🧅 L5: OUTPUT   (Narrate / Audit)
+🧅 L5: OUTPUT   (Narrate/Audit)
 ```
-**Core Services**
 
-| Service              | Role                |
-|----------------------|---------------------|
-| api-gateway          | PEP (enforcement)   |
-| policy-pdp           | PDP (decision)      |
-| approval-service     | Human approval      |
-| telemetry-ingest     | Input validation    |
-| notification-service | Alerts              |
-| audit-service        | Trace & compliance  |
+**Core Services**:  
+api-gateway (PEP enforcement), policy-pdp (PDP decision), approval-service (human approval), telemetry-ingest (input validation), notification-service (alerts), audit-service (trace & compliance)
 
 ---
 
 ## 📦 Repository Structure
 
-```
+<details>
+<summary>Expand to view directory tree…</summary>
+
+```text
 onion-guardian-agent/
 ├── README.md
 ├── LICENSE
@@ -86,136 +86,69 @@ onion-guardian-agent/
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── CHANGELOG.md
-├── .gitignore
-├── docker-compose.yml
 ├── .github/
-│   ├── workflows/
-│   ├── ISSUE_TEMPLATE/
-│   └── PULL_REQUEST_TEMPLATE.md
-├── services/
-│   ├── api-gateway/
-│   ├── policy-pdp/
-│   ├── approval-service/
-│   ├── telemetry-ingest/
-│   ├── notification-service/
-│   └── audit-service/
-├── agents/
-│   ├── behavior-agent/
-│   ├── anomaly-agent/
-│   ├── context-agent/
-│   └── explanation-agent/
-├── packages/
-│   ├── shared-types/
-│   ├── policy-sdk/
-│   ├── logging-lib/
-│   └── utils/
-├── infrastructure/
-│   ├── terraform/
-│   ├── k8s/
-│   └── scripts/
-├── ci-cd/
-│   ├── github-actions/
-│   └── pipelines.md
-├── configs/
-│   ├── dev.env
-│   ├── staging.env
-│   ├── prod.env
-│   └── policy-config.yaml
-├── docs/
-│   ├── 00-governance/
-│   ├── 01-risk/
-│   ├── 02-policy/
-│   ├── 03-architecture/
-│   ├── 04-security/
-│   ├── 05-safety/
-│   ├── 06-compliance/
-│   ├── 07-verification/
-│   ├── 08-audit/
-│   └── 09-agents/
+│   ├── workflows/...
+├── services/...
+├── agents/...
+├── packages/...
+├── infrastructure/...
+├── ci-cd/...
+├── configs/...
+├── docs/...
 ├── scripts/
 ├── tests/
-└── resources/
-    └── diagrams/
+└── resources/diagrams/
 ```
+</details>
 
 ---
 
-## 🟪 Trust & Accountability Dev→Guardian Pipeline
+## 🟪 From Dev to Guardian (Overview)
 
 ```mermaid
 flowchart TD
-    A[GitHub Source\nCommit / PR / Merge] --> B[Observe / Entry / Trigger\nLook]
-    B --> C[Notice / Build\nNotice]
-    C --> D[Infer / Test\nThink]
-    D --> E[Infer / Policy Decision\nThink]
-    E --> F[Operate / Human Oversight\nDo]
-    F --> G[Operate / Deploy / Enforcement\nDo]
-    G --> H[Narrate / Runtime Verification\nTell]
-    H --> I[Narrate / Audit / Traceability\nTell]
-    I --> J[Narrate / Monitor / Feedback\nTell]
-
-    R1[Responsibility + Accountability] --- A
-    R2[Security + Integrity] --- B
-    R3[Natural Ability + Reliability] --- C
-    R4[Safety + Fairness] --- D
-    R5[Explainability + Transparency] --- E
-    R6[Human Oversight + Inclusiveness] --- F
-    R7[Compliance + Privacy + Security] --- G
-    R8[Reliability + Safety] --- H
-    R9[Accountability + Transparency] --- I
-    R10[Continuous Improvement] --- J
+    A[GitHub Source: Commit/PR] --> B[Observe/Entry]
+    B --> C[Notice/Build]
+    C --> D[Infer/Test, Policy]
+    D --> E[Operate/Human Oversight]
+    E --> F[Deploy/Enforce]
+    F --> G[Narrate/Verify/Audit]
+    G --> H[Monitor/Feedback]
 ```
 
 ---
 
-## 🧠 Layered Security + Guardian Notification
+## ✅ Security & Compliance Checklist
 
-```mermaid
-flowchart TD
-    A[Observe / Origin\nLook\nSafe Inputs + Trusted Origin] --> B[Notice / Navigate\nNotice\nThreat Detection + Risk Signals]
-    B --> C[Infer / Imagine\nThink\nReasoning + Policy Evaluation]
-    C --> D[Operate / Organize\nDo\nEnforcement + Constraints]
-    D --> E[Narrate / Notify\nTell\nAudit + Explanation + Guardian Notification]
+- [ ] Branch protection and code review required
+- [ ] Dependabot and secret scanning enabled
+- [ ] Code scanning (CodeQL) active
+- [ ] No secrets in code
+- [ ] OIDC for GitHub Actions
+- [ ] Minimal permissions for CI workflows
+- [ ] Container/image signing and provenance
+- [ ] Audit trail for all sensitive actions
 
-    M1[Responsibility] --- A
-    M2[Safety] --- B
-    M3[Explainability] --- C
-    M4[Security + Compliance + Constraints] --- D
-    M5[Accountability + Transparency] --- E
-```
+See [OWASP CI/CD Security](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)  
+Supports GDPR, COPPA, ISO 27001, NIST AI RMF, OWASP ASVS L2.
 
 ---
 
-##### 📈 End-to-End Flow (Blueprint)
+## 🤝 Contributing
 
-[System Blueprint Diagram (Mermaid source in resources/diagrams)](https://github.com/MoneyMan421/O.N.I.O.N/blob/main/resources/diagrams/onion-system-blueprint.mmd)
-
-**Continuous loop:** Commit → Verify → Decide → Approve → Deploy → Audit → Monitor → Improve
-
----
-
-## ✅ Verification Layers (10-Level Zero-Trust)
-
-| Layer         | What Is Verified         | How                                            |
-|---------------|-------------------------|------------------------------------------------|
-| Source        | No secrets committed     | GitHub secret scanning, branch protection      |
-| Dependencies  | No known CVEs            | Dependabot, dependency review, pip-audit       |
-| Code          | Code quality & security  | Static analysis, linting, test gates           |
-| Secrets       | No credentials in code   | Secret scanning, push protection               |
-| CI Pipeline   | Signed/controlled WF     | Workflow integrity checks                      |
-| Artifacts     | Image integrity          | Signed artifacts, provenance verification      |
-| Deployment    | Config matches policy    | Policy validation, env protections             |
-| Runtime       | Requests are authorized  | PEP → PDP enforcement                          |
-| Audit         | Decisions are traceable  | Immutable logs, reason codes                   |
-| Alerts        | Guardians are notified   | Notification/escalation paths                  |
+All contributors must follow our [Code of Conduct](CODE_OF_CONDUCT.md).  
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-<small>Verified • Responsible • Safe • Secure • Explainable • Accountable • Compliant<br>
-Mission enforced everywhere: Responsibility • Accountability • Explainability<br>
-Natural Ability • Integrity • Safety • Compliance • Security • Constraints<br>
-Responsible AI embedded everywhere: Fairness • Reliability & Safety • Privacy & Security • Inclusiveness • Transparency • Accountability</small>
+## 📜 License
+
+See [LICENSE](LICENSE) for details.
 
 ---
 
-<!-- The rest of the README remains unchanged. -->
+## References
+
+- [GitHub Best Practices](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories)
+- [Microsoft Responsible AI Principles](https://www.microsoft.com/en-us/ai/responsible-ai)
+- [OWASP CI/CD Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)

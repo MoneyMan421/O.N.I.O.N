@@ -248,6 +248,30 @@ flowchart TD
 
 ---
 
+## 🗺️ System Blueprint Diagram
+
+```mermaid
+flowchart LR
+    U[Users / Devices\nChildren / Guardians / Admins / Wearables] --> IV[Input Validation]
+    IV --> TD[Threat Detection]
+    TD --> PI[Policy / Inference]
+    PI --> ENF[Enforcement]
+    ENF --> AUD[Audit / Logging]
+    AUD --> NTFY[Notify / Explain / Alert]
+
+    GOV[Governance] --- PI
+    COMP[Compliance] --- PI
+    SEC[Security] --- ENF
+    SAFE[Safety] --- TD
+    MON[Monitoring] --- AUD
+
+    GH[GitHub] --- IV
+    GHA[GitHub Actions] --- PI
+    AZ[Azure / AKS / ACR] --- ENF
+```
+
+---
+
 ## ✅ Security & Compliance Checklist
 
 - [ ] Branch protection and code review required

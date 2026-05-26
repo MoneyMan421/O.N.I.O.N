@@ -6,7 +6,7 @@
 [![Responsible AI](https://img.shields.io/badge/Responsible%20AI-6%20Principles-green)](https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai?view=azureml-api-2)
 [![OWASP CI/CD Security](https://img.shields.io/badge/OWASP-CI%2FCD%20Security-orange)](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
-> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable systems[...]
+> O.N.I.O.N is a zero-trust, policy-driven AI architecture designed to help protect children through verification-first workflows, explainable decisions, parent-aware controls, and accountable systems.
 
 ---
 
@@ -73,36 +73,6 @@ api-gateway (PEP enforcement), policy-pdp (PDP decision), approval-service (huma
 
 ---
 
-## 📦 Repository Structure
-
-<details>
-<summary>Expand to view directory tree…</summary>
-
-```text
-onion-guardian-agent/
-├── README.md
-├── LICENSE
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── CHANGELOG.md
-├── .github/
-│   ├── workflows/...
-├── services/...
-├── agents/...
-├── packages/...
-├── infrastructure/...
-├── ci-cd/...
-├── configs/...
-├── docs/...
-├── scripts/
-├── tests/
-└── resources/diagrams/
-```
-</details>
-
----
-
 ## 🧅 O.N.I.O.N End-to-End Secure Policy Workflow (Full Detail)
 
 ```mermaid
@@ -128,13 +98,13 @@ flowchart TD
     R9[Accountability + Transparency] --- I
     R10[Continuous Improvement] --- J
 
-────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────
 Verified • Responsible • Safe • Secure • Explainable • Accountable • Compliant
 Mission enforced everywhere: Responsibility • Accountability • Explainability
 Natural Ability • Integrity • Safety • Compliance • Security • Constraints
 Responsible AI embedded everywhere: Fairness • Reliability & Safety • Privacy & Security
 Inclusiveness • Transparency • Accountability
-────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────
 👤 Developer
    │
    ▼
@@ -252,6 +222,28 @@ flowchart TD
     M3[Explainability] --- C
     M4[Security + Compliance + Constraints] --- D
     M5[Accountability + Transparency] --- E
+```
+
+---
+
+## 🖼️ End-to-End Flow Diagram
+
+```mermaid
+flowchart TD
+    A[Developer Workstation] -->|Signed commits / PRs| B[GitHub Repository]
+    B -->|Protected branches / CODEOWNERS / secret scanning| C[GitHub Actions CI/CD]
+    C -->|SAST / dependency audit / tests / policy lint| D[Azure Container Registry]
+    D -->|Verified image pull| E[Azure Kubernetes Service]
+    E --> F[ONION Runtime]
+    F --> G[Audit Service]
+    F --> H[Notification Service]
+    F --> I[Azure Monitor / Defender for Cloud]
+
+    F1[api-gateway] --> F2[policy-pdp]
+    F2 -->|ALLOW| F3[approval-service]
+    F2 -->|DENY| H
+    F3 --> G
+    F4[telemetry-ingest] --> G
 ```
 
 ---

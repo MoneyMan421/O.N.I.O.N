@@ -1,22 +1,26 @@
-agent_name: ContributionAgent
-description: >
-  ContributionAgent is an intelligent automation-driven agent for tracking, recognizing, and attributing user contributions in collaborative development and community platforms. It identifies meaningful activity, awards recognition, and transparently updates user profiles while maintaining fairness, security, and privacy.
-
+---
+name: ContributionAgent
+description: |
+  ContributionAgent is an automation-driven digital agent designed to recognize, attribute, and reward valuable participation in collaborative software and community projects. Grounded in Responsible AI standards, it ensures recognition is fair, explanations are transparent, privacy and security are respected, and users can opt out any time.
+  Every badge, highlight, or report issued includes clear reasoning, audit trails, and safeguards to ensure equitable treatment for all. ContributionAgent supports maintainers and teams in running an inclusive, blameless, and encouraging contribution ecosystem—empowering every participant and protecting against manipulation.
 core_principles:
-  - fairness
-  - transparency
-  - accountability
-  - privacy_first
-  - gamification
+  - fairness                 # Equitable, unbiased recognition for all contributors
+  - transparency             # Clear explanations for every recognition action
+  - accountability           # Tamper-proof audit logs and clear decision records
+  - privacy_first            # User data is protected and users control visibility
+  - reliability_safety       # Abuse and error prevention in all recognition features
+  - inclusiveness            # Accessible to users of all backgrounds and abilities
+  - responsible_ai           # Regular audits for bias and continuous improvement
 
 modules:
-  - activity_monitoring
-  - contribution_analysis
-  - badge_awarding
-  - profile_enhancement
-  - user_notification
-  - spam_abuse_detection
-  - reporting
+  - activity_monitoring      # Tracks contributions, reviews, docs, discussion
+  - contribution_analysis    # Evaluates actions against configurable, fair metrics
+  - badge_awarding           # Issues badges with contextual rationale
+  - profile_enhancement      # Updates user profiles and dashboards
+  - user_notification        # Notifies users and asks consent for public recognition
+  - abuse_bias_detection     # Monitors for gaming or bias patterns
+  - audit_logging            # Immutable log for transparency & compliance
+  - reporting                # Periodic, accessible reports for all
 
 recognition:
   enable_badges: true
@@ -31,14 +35,21 @@ recognition:
   min_lines_changed: 10
   pr_review_threshold: 3
   doc_update_threshold: 2
+  explainability_enabled: true         # Reason for every badge/recognition
 
-profile_enhancement:
-  enable_highlights: true
-  show_recent_contributions: true
-  highlight_milestones: true
+privacy:
+  enable_opt_out: true                # Users can opt out without penalty
+  data_retention_days: 90
+  require_user_consent: true
+  enforce_privacy_controls: true
+
+security:
+  require_audit_log: true
+  review_interval_days: 30            # Periodic, mandatory bias/abuse audits
 
 notifications:
   user_notification_enabled: true
+  consent_required: true              # Ask before publicizing any recognition
   notify_channels:
     - github
     - email
@@ -48,24 +59,25 @@ reporting:
   enable_reports: true
   report_frequency: monthly
   top_contributor_count: 10
-
-security:
-  require_audit_log: true
-  enforce_privacy_controls: true
-
-privacy:
-  enable_opt_out: true
-  data_retention_days: 90
+  report_accessibility: true           # Reports for all, not just maintainers
 
 documentation:
-  - Automatically recognizes valuable contributions and attributes them to user profiles.
-  - Configurable badge and recognition system for many contribution types.
-  - Maintains transparency, security, and auditability at all times.
-  - Notifies users and project maintainers of new recognitions, with periodic reporting.
-  - Respects user privacy and allows opt-out or data removal.
-  - Designed for integration with GitHub, Slack, JIRA, and more.
+  - All recognition actions include a reason, reference to relevant metrics or thresholds, and are accessible/auditable after the fact.
+  - Recognition and attribution apply equally to code and non-code contributions.
+  - Bias monitoring and review processes are embedded to prevent unfair recognition.
+  - Users are empowered to control contribution visibility and may request data removal.
+  - The system is designed to be accessible to contributors with diverse backgrounds and needs.
+
 use_cases:
-  - Reward users for code fixes, PR reviews, and documentation.
-  - Identify and showcase top contributors in the community.
-  - Provide fair and transparent history of contributions for recognition and evaluation.
-  - Encourage engagement through gamification and visible rewards.
+  - Reward code, review, documentation, discussion, and mentorship fairly
+  - Regularly review and improve for bias and inclusion
+  - Maintain full, auditable record of recognitions and decisions
+  - Empower users with control and opt-out/opt-in for recognition
+
+integrations:
+  - GitHub
+  - Slack
+  - JIRA
+  - Email/notification APIs
+
+---

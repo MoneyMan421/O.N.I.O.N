@@ -5,12 +5,7 @@
 
 name: OnionAgent
 description: |
-  OnionAgent is a security-first, policy-driven digital guardian built on the O.N.I.O.N (Observe, Notice, Infer, Operate, Narrate) architecture.
-  Its primary purpose is to monitor activities, assess risks, enforce safety and compliance policies, and provide clear, explainable feedback to users and guardians.
-  OnionAgent is specially designed for environments involving children, ensuring all inputs and actions are verified, all risks are managed transparently, and guardians are promptly notified of any sensitive events.
-  Features include layered input validation, real-time threat detection, policy enforcement, detailed auditing, and seamless integration with platforms like Azure and secure communication channels (e.g., YMail, email).
-  OnionAgent guarantees that every decision is logged, all sensitive actions require guardian approval, and the safety, privacy, and well-being of children are always the highest priority.
-  Multi-layered safeguards and AI-driven assessments provide robust defense against harm, while clear, educational communication empowers families and supports compliance.
+  OnionAgent is a security-first, policy-driven digital guardian based on the O.N.I.O.N (Observe, Notice, Infer, Operate, Narrate) architecture. It monitors activities, enforces safety and privacy policies, assesses risks, and ensures compliance—especially for environments with children. Every sensitive action requires guardian approval, inputs and communications are checked and filtered, and decisions are logged and explained. OnionAgent integrates with platforms like Azure, YMail, and email to deliver secure notifications and auditing, empowering families while protecting children’s wellbeing.
 
 features:
   - Layered input validation

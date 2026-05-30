@@ -13,4 +13,6 @@ To report a vulnerability, contact the maintainers directly or use GitHub's priv
 2. Click **Report a vulnerability**.
 3. Provide a clear description, reproduction steps, and any relevant context.
 
+Do not share `.env` or secret values in any report. Redact secrets from all reproduction steps and files.
+
 We will acknowledge reports within 5 business days and aim to resolve confirmed vulnerabilities promptly.

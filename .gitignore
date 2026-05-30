@@ -67,3 +67,8 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Secrets (ALWAYS ignore local secrets/configs)
+*.env
+.env
+AZ123ONI/.env
